@@ -14,16 +14,15 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
-import {
-  Menu,
-  Code,
-  BookOpen
-} from "lucide-react";
+import { Menu, Code, BookOpen } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { AuthModal } from "./AuthModal";
+import { signOut, useSession } from "next-auth/react";
 
 export function NavBar() {
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const routes = [
     { href: "/", label: "Home" },
@@ -69,20 +68,13 @@ export function NavBar() {
                     {route.label}
                   </Link>
                 ))}
-                <Link
-                  href="/auth/login"
-                  className="mt-4 flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/auth/signup"
-                  className="flex w-full items-center justify-center rounded-md bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/90"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign Up
-                </Link>
+                {session ? (
+                  <Button variant={"destructive"} onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                ) : (
+                  <AuthModal />
+                )}
               </nav>
             </SheetContent>
           </Sheet>
@@ -219,12 +211,13 @@ export function NavBar() {
         <div className="flex items-center gap-2">
           <ModeToggle />
           <div className="hidden md:flex md:gap-2">
-            <Link href="/auth/login" passHref>
-              <Button variant="outline">Login</Button>
-            </Link>
-            <Link href="/auth/signup" passHref>
-              <Button>Sign Up</Button>
-            </Link>
+            {session ? (
+              <Button variant={"destructive"} onClick={() => signOut()}>
+                Sign Out
+              </Button>
+            ) : (
+              <AuthModal />
+            )}
           </div>
         </div>
       </div>
