@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Menu, Code, BookOpen } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { AuthModal } from "./AuthModal";
+import { AuthModal } from "../pages/AuthModal";
 import { signOut, useSession } from "next-auth/react";
 
 export function NavBar() {

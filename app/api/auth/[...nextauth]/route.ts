@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prismaClient } from "@/lib/prisma"; // create this manually
 
 // ==>> will uncomment these lines after the mongodb or Prisma backend setup.
 
@@ -8,7 +10,7 @@ import GitHubProvider from "next-auth/providers/github";
 // import clientPromise from "../../../../lib/mongodb";
 
 const handler = NextAuth({
-  // adapter: MongoDBAdapter(clientPromise),
+  adapter: PrismaAdapter(prismaClient),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -19,20 +21,20 @@ const handler = NextAuth({
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
+  // session: {
+  //   strategy: "jwt",
+  // },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id; // Store user ID in token
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user = token.id;
-      }
+      if (session.user && token && token.id) {
+        session.user.id = token.id;
+      } 
       return session;
     },
   },

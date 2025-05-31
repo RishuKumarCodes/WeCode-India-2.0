@@ -21,7 +21,7 @@ export function AuthModal() {
 
           {/* modal panel */}
           <div className="relative bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg max-w-sm w-full z-10">
-            <h2 className="text-xl font-semibold mb-8">Sign in to DevPath</h2>
+            <h2 className="text-xl font-semibold mb-8">Sign in to We Code India</h2>
             <div className="flex flex-col gap-3">
               <Button onClick={() => signIn("google")}>
                 Sign in with Google
