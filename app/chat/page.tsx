@@ -4,16 +4,25 @@ import { useSession } from "next-auth/react";
 import { useChatSocket } from "@/hooks/useChatSocket";
 import { useEffect, useState, useRef } from "react";
 
+type ChatMessage = {
+  content: string;
+  user: {
+    name: string;
+  };
+};
+
 export default function ChatPage() {
-  const { data: session } = useSession();
-  const [text, setText] = useState("");
-  const [initialMessages, setInitialMessages] = useState<any[]>([]);
+  const { data: session, status } = useSession();
+
+  // Call hooks early, unconditionally
   const { messages: liveMessages, sendMessage } = useChatSocket({
-    name: session?.user?.name!,
-    email: session?.user?.email!,
-    id: session?.user?.id,
+    name: session?.user?.name ?? "",
+    email: session?.user?.email ?? "",
+    id: session?.user?.id ?? "",
   });
 
+  const [text, setText] = useState("");
+  const [initialMessages, setInitialMessages] = useState<ChatMessage[]>([]);
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,11 +37,11 @@ export default function ChatPage() {
     }
   }, [initialMessages, liveMessages]);
 
+  if (status === "loading") return <p>Loading session...</p>;
+  if (!session) return <p>Login to join chat</p>;
+
   const allMessages = [
-    ...initialMessages.map((msg) => ({
-      content: msg.content,
-      user: { name: msg.user.name },
-    })),
+    ...initialMessages,
     ...liveMessages.map((msg) => JSON.parse(msg)),
   ];
 
@@ -42,8 +51,6 @@ export default function ChatPage() {
       setText("");
     }
   };
-
-  if (!session) return <p>Login to join chat</p>;
 
   return (
     <div className="max-w-xl mx-auto p-4 space-y-4">
