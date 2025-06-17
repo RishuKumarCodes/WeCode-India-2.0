@@ -18,6 +18,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
+      console.log("the credentials for login", token, user)
       if (user) {
         token.id = user.id; // Include user ID in token
       }
