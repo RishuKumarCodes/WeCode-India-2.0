@@ -148,7 +148,19 @@ export default function RoadmapInputForm() {
 
       const data = await res.json();
       toast({ title: "Success!", description: "Your roadmap has been created." });
-      router.replace(`/roadmap/view?id=${data.id}`);
+      setGenerating(true);
+      setTimeout(() => {
+        setRoadmapInput({
+          goal,
+          skillLevel: skill_level,
+          months: Number(months),
+          dailyHours: Number(daily_hours),
+          targetCompaniesOrRoles: values.target_companies_or_roles || "",
+        });
+        setShowPlan(true);
+        setGenerating(false);
+        router.replace(`/roadmap/view?id=${data.id}`);
+      }, 8000);
     } catch (error: any) {
       toast({
         title: "Failed to submit",
