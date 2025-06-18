@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressTracker } from "@/components/ProgressTracker";
-import { useLocalProjectProgress } from "../../hooks/useLocalProjectProgress";
+import { useLocalProjectProgress } from "../../../hooks/useLocalProjectProgress";
 import {
   Accordion,
   AccordionContent,

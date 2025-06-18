@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -47,6 +47,21 @@ export default function UserInputForm() {
   const [generating, setGenerating] = useState(false);
   const [showStep3, setShowStep3] = useState(false);
   const [showTaskTracker, setShowTaskTracker] = useState(false);
+
+  // Check for saved roadmap on mount
+  useEffect(() => {
+    const savedRoadmap = localStorage.getItem('currentRoadmap');
+    if (savedRoadmap) {
+      try {
+        const parsedRoadmap = JSON.parse(savedRoadmap);
+        setRoadmapInput(parsedRoadmap);
+        setShowPlan(true);
+        setShowStep3(true);
+      } catch (error) {
+        console.error('Error parsing saved roadmap:', error);
+      }
+    }
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

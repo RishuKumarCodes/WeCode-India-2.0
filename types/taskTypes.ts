@@ -1,4 +1,3 @@
-
 export interface Task {
   id: string;
   title: string;
@@ -13,6 +12,7 @@ export interface WeekTasks {
   monthTitle: string;
   week: number;
   weekTitle: string;
+  weekLabel: String;
   tasks: Task[];
 }
 

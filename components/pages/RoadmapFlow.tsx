@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -152,10 +152,30 @@ export default function RoadmapFlow({
   const [showTasks, setShowTasks] = useState(false);
   const [selectedTaskWeekIndex, setSelectedTaskWeekIndex] = useState<number | null>(null);
 
+  // Save roadmap to localStorage when it changes
+  useEffect(() => {
+    if (roadmapInput) {
+      localStorage.setItem('currentRoadmap', JSON.stringify(roadmapInput));
+    }
+  }, [roadmapInput]);
+
+  // Load dark mode preference from localStorage
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('roadmapDarkMode');
+    if (savedDarkMode) {
+      setIsDarkMode(savedDarkMode === 'true');
+      if (savedDarkMode === 'true') {
+        document.documentElement.classList.add('dark');
+      }
+    }
+  }, []);
+
   // Toggle dark mode
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
     document.documentElement.classList.toggle("dark");
+    localStorage.setItem('roadmapDarkMode', String(newDarkMode));
   };
 
   const {
@@ -294,9 +314,6 @@ export default function RoadmapFlow({
       }))
     }];
   };
-
-  console.log("Nodes:", nodes);
-  console.log("Edges:", edges);
 
   return (
     <div
