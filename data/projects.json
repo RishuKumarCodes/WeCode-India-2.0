@@ -1,0 +1,370 @@
+[
+  {
+    "id": "portfolio-nextjs",
+    "slug": "personal-portfolio-nextjs",
+    "title": "Personal Portfolio in Next.js",
+    "domain": "Web Development",
+    "difficulty": "Intermediate",
+    "summary": "Build your own stylish developer portfolio using Next.js, Tailwind, and shadcn/ui.",
+    "description": "Showcase your skills to the world! In this project, you'll create a personal portfolio website with modern tools (Next.js App Router, shadcn/ui, Tailwind). You'll deploy it for the world to see, and learn modular, scalable UI patterns and best practices.",
+    "timeEstimate": "10–15 hrs",
+    "techStack": ["Next.js", "Tailwind CSS", "shadcn/ui"],
+    "githubRepo": "https://github.com/shadcn/ui",
+    "goals": [
+      "Create a personal portfolio website with Next.js.",
+      "Implement modern, modular UI with shadcn/ui.",
+      "Deploy your site and share your portfolio online."
+    ],
+    "phases": [
+      {
+        "title": "Setup",
+        "description": "Get your local environment ready and project initialized.",
+        "steps": [
+          {
+            "id": "setup-nextjs",
+            "label": "Create new Next.js project",
+            "code": "npx create-next-app@latest"
+          },
+          {
+            "id": "install-tailwind",
+            "label": "Install Tailwind CSS & Shadcn UI",
+            "code": "npm install tailwindcss shadcn/ui"
+          }
+        ]
+      },
+      {
+        "title": "Design UI",
+        "description": "Layout your site and add your personal branding.",
+        "steps": [
+          {
+            "id": "layout-pages",
+            "label": "Create homepage & about page",
+            "code": "mkdir pages && touch pages/index.tsx pages/about.tsx"
+          },
+          {
+            "id": "add-projects-section",
+            "label": "Add Projects section to homepage"
+          },
+          {
+            "id": "customize-theme",
+            "label": "Fine-tune fonts, colors, and spacing"
+          }
+        ]
+      },
+      {
+        "title": "Deploy",
+        "description": "Launch your portfolio to a global audience.",
+        "steps": [
+          {
+            "id": "set-up-vercel",
+            "label": "Connect with Vercel & deploy",
+            "code": "npx vercel"
+          },
+          {
+            "id": "share-link",
+            "label": "Share your portfolio link online"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "YouTube: Build a Portfolio with Next.js",
+        "url": "https://youtu.be/xQ6uCwE0TDg"
+      },
+      {
+        "type": "doc",
+        "title": "Next.js Documentation",
+        "url": "https://nextjs.org/docs"
+      },
+      {
+        "type": "github",
+        "title": "shadcn/ui Repo",
+        "url": "https://github.com/shadcn/ui"
+      }
+    ]
+  },
+  {
+    "id": "image-classifier-ml",
+    "slug": "ai-image-classifier-ml",
+    "title": "Image Classifier using AI/ML",
+    "domain": "AI/ML",
+    "difficulty": "Advanced",
+    "summary": "Train and deploy an image classifier using TensorFlow or PyTorch with a web interface.",
+    "description": "Build and train your own neural network for image classification, then deploy it with an elegant frontend. Explore data preprocessing, model design, training, and real-world inference.",
+    "timeEstimate": "18–25 hrs",
+    "techStack": ["TensorFlow", "React", "Tailwind CSS"],
+    "githubRepo": "https://github.com/tensorflow/tensorflow",
+    "goals": [
+      "Understand fundamentals of image classification using ML.",
+      "Apply neural network training and evaluation.",
+      "Deploy model as an interactive web application."
+    ],
+    "phases": [
+      {
+        "title": "Data Preparation",
+        "description": "Collect and preprocess image dataset.",
+        "steps": [
+          {
+            "id": "gather-dataset",
+            "label": "Gather labeled image dataset"
+          },
+          {
+            "id": "preprocess-images",
+            "label": "Preprocess images (resize, normalize)"
+          }
+        ]
+      },
+      {
+        "title": "Model Training",
+        "description": "Build and train your classifier network.",
+        "steps": [
+          {
+            "id": "build-model",
+            "label": "Define neural network architecture",
+            "code": "import tensorflow as tf\nmodel = tf.keras.Sequential([...])"
+          },
+          {
+            "id": "train-model",
+            "label": "Train and validate the model"
+          }
+        ]
+      },
+      {
+        "title": "Deployment",
+        "description": "Wrap the model with a React UI and deploy.",
+        "steps": [
+          {
+            "id": "export-model",
+            "label": "Export trained model"
+          },
+          {
+            "id": "build-web-ui",
+            "label": "Build a React web interface"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "TensorFlow Image Classification",
+        "url": "https://www.tensorflow.org/tutorials/images/classification"
+      },
+      {
+        "type": "video",
+        "title": "Intro to Neural Networks (YouTube)",
+        "url": "https://youtu.be/aircAruvnKk"
+      },
+      {
+        "type": "github",
+        "title": "TensorFlow Models Repo",
+        "url": "https://github.com/tensorflow/models"
+      }
+    ]
+  },
+  {
+    "id": "mobile-todo-app",
+    "slug": "mobile-todo-app-react-native",
+    "title": "To-Do App for Mobile",
+    "domain": "App Development",
+    "difficulty": "Beginner",
+    "summary": "Craft a beautiful mobile to-do list app from scratch using React Native.",
+    "description": "Master the basics of app development by building your own cross-platform to-do app. You'll design intuitive UIs and manage state for real-world productivity.",
+    "timeEstimate": "8–12 hrs",
+    "techStack": ["React Native", "Expo", "TypeScript"],
+    "githubRepo": "https://github.com/expo/examples",
+    "goals": [
+      "Learn fundamentals of mobile app development.",
+      "Explore state management and touch events.",
+      "Publish your first app to your device."
+    ],
+    "phases": [
+      {
+        "title": "Getting Started",
+        "description": "Set up React Native environment.",
+        "steps": [
+          {
+            "id": "expo-init",
+            "label": "Initialize project with Expo CLI",
+            "code": "npx create-expo-app"
+          }
+        ]
+      },
+      {
+        "title": "Feature Implementation",
+        "description": "Add core features and polish design.",
+        "steps": [
+          {
+            "id": "add-task",
+            "label": "Implement add/delete task"
+          },
+          {
+            "id": "persistence",
+            "label": "Persist tasks locally (AsyncStorage)"
+          }
+        ]
+      },
+      {
+        "title": "Build & Run",
+        "description": "Test your app on mobile devices.",
+        "steps": [
+          {
+            "id": "run-app",
+            "label": "Run the app on your device"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "React Native Crash Course",
+        "url": "https://youtu.be/0-S5a0eXPoc"
+      },
+      {
+        "type": "doc",
+        "title": "Expo Docs",
+        "url": "https://docs.expo.dev/"
+      }
+    ]
+  },
+  {
+    "id": "blockchain-wallet-dapp",
+    "slug": "blockchain-wallet-dapp",
+    "title": "Blockchain Wallet DApp",
+    "domain": "Blockchain",
+    "difficulty": "Advanced",
+    "summary": "Build a secure crypto wallet decentralized app with Ethereum and React.",
+    "description": "Dive into blockchain by developing a DApp for storing and sending cryptos. Handle wallet integration, secure key storage, and a sleek UI.",
+    "timeEstimate": "25+ hrs",
+    "techStack": ["Solidity", "Ether.js", "React", "Tailwind CSS"],
+    "githubRepo": "https://github.com/ethers-io/ethers.js",
+    "goals": [
+      "Understand blockchain DApp structure and smart contracts.",
+      "Connect React frontend with Ethereum blockchain.",
+      "Build a secure, user-friendly wallet for transactions."
+    ],
+    "phases": [
+      {
+        "title": "Smart Contract",
+        "description": "Write and deploy your wallet contract.",
+        "steps": [
+          {
+            "id": "write-contract",
+            "label": "Create wallet smart contract in Solidity",
+            "code": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\ncontract Wallet { ... }"
+          }
+        ]
+      },
+      {
+        "title": "Frontend",
+        "description": "Integrate smart contract with web UI.",
+        "steps": [
+          {
+            "id": "connect-wallet",
+            "label": "Connect MetaMask/Ethereum wallet"
+          },
+          {
+            "id": "ui-implementation",
+            "label": "Implement send/receive UI"
+          }
+        ]
+      },
+      {
+        "title": "Final Deployment",
+        "description": "Launch DApp on testnet and share.",
+        "steps": [
+          {
+            "id": "deploy-dapp",
+            "label": "Deploy DApp to Ethereum Testnet"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Ethers.js Docs",
+        "url": "https://docs.ethers.org/"
+      },
+      {
+        "type": "video",
+        "title": "Solidity Smart Contracts (YouTube)",
+        "url": "https://youtu.be/M576WGiDBdQ"
+      }
+    ]
+  },
+  {
+    "id": "dataviz-dashboard",
+    "slug": "dataviz-dashboard-recharts",
+    "title": "Data Visualization Dashboard",
+    "domain": "Data Science",
+    "difficulty": "Intermediate",
+    "summary": "Design a beautiful dashboard to visualize data using Recharts and React.",
+    "description": "Bring your datasets to life! Build a bespoke dashboard displaying charts, KPIs, and tables using the Recharts library. Create responsive, user-friendly views for real-world data.",
+    "timeEstimate": "10–14 hrs",
+    "techStack": ["React", "Recharts", "Tailwind CSS"],
+    "githubRepo": "https://github.com/recharts/recharts",
+    "goals": [
+      "Learn to present data with interactive charts.",
+      "Design a multi-pane dashboard with KPIs and tables.",
+      "Deploy your dashboard for real-world use."
+    ],
+    "phases": [
+      {
+        "title": "Project Setup",
+        "description": "Initialize React project and install dependencies.",
+        "steps": [
+          {
+            "id": "create-react",
+            "label": "Create React app",
+            "code": "npx create-react-app dataviz-dashboard"
+          },
+          {
+            "id": "install-recharts",
+            "label": "Install Recharts",
+            "code": "npm install recharts"
+          }
+        ]
+      },
+      {
+        "title": "Dashboard Layout",
+        "description": "Build the dashboard UI layout.",
+        "steps": [
+          {
+            "id": "design-panels",
+            "label": "Create chart and KPI panels"
+          }
+        ]
+      },
+      {
+        "title": "Advanced Visualization",
+        "description": "Add interactivity and deploy.",
+        "steps": [
+          {
+            "id": "add-interactivity",
+            "label": "Add chart tooltips and filtering"
+          },
+          {
+            "id": "deploy-dashboard",
+            "label": "Deploy the dashboard"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "React Data Visualization Tutorial",
+        "url": "https://youtu.be/GUjTogpnktc"
+      },
+      {
+        "type": "doc",
+        "title": "Recharts Docs",
+        "url": "https://recharts.org/en-US/api"
+      }
+    ]
+  }
+]
