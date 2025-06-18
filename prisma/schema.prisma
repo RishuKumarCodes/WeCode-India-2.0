@@ -25,6 +25,8 @@ model User {
   posts      CommunityPost[]    @relation("UserPosts")
   likedPosts CommunityPost[]    @relation("PostLikes")
   comments   CommunityComment[]
+
+  aiRoadmaps    AiRoadmapInput[] 
 }
 
 model Account {
@@ -96,4 +98,16 @@ model Media {
 
   post   CommunityPost @relation(fields: [postId], references: [id])
   postId String
+
+model AiRoadmapInput {
+  id                     String   @id @default(uuid()) 
+  goal                   String
+  skillLevel             String
+  months                 Int
+  dailyHours             Int
+  targetCompaniesOrRoles String?   // Optional field
+  createdAt              DateTime @default(now())
+
+  userId                 String
+  user                   User     @relation(fields: [userId], references: [id])
 }

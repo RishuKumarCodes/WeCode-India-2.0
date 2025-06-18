@@ -17,19 +17,47 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      console.log("the credentials for login", token, user)
+
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id; // Include user ID in token
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token?.id) {
+      if (session.user) {
         session.user.id = token.id as string;
       }
       return session;
     },
+    async signIn({ user, account, profile }) {
+      if (!user.email) return false;
+      
+      // Check if user exists
+      const existingUser = await prismaClient.user.findUnique({
+        where: { email: user.email },
+      });
+
+      if (!existingUser) {
+        // Create new user if doesn't exist
+        await prismaClient.user.create({
+          data: {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          },
+        });
+      }
+
+      return true;
+    },
+  },
+  pages: {
+    signIn: '/auth/signin',
+    error: '/auth/error',
+  },
+  session: {
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
