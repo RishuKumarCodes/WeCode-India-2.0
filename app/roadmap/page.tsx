@@ -1,27 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSession } from "next-auth/react";
 import RoadmapDashboard from "@/components/roadmap/RoadmapDashboard";
-import RoadmapFlow from "@/components/pages/RoadmapFlow";
-import { RoadmapInput } from "@/types/roadmapTypes";
 
 export default function RoadmapPage() {
-  const [roadmapInput, setRoadmapInput] = useState<RoadmapInput | null>(null);
   const { status } = useSession();
-
-  // Check for saved roadmap on mount
-  useEffect(() => {
-    const savedRoadmap = localStorage.getItem('currentRoadmap');
-    if (savedRoadmap) {
-      try {
-        const parsedRoadmap = JSON.parse(savedRoadmap);
-        setRoadmapInput(parsedRoadmap);
-      } catch (error) {
-        console.error('Error parsing saved roadmap:', error);
-      }
-    }
-  }, []);
 
   if (status === 'loading') {
     return (
@@ -43,10 +27,6 @@ export default function RoadmapPage() {
       </div>
     );
   }
-
-  // if (roadmapInput) {
-  //   return <RoadmapFlow roadmapInput={roadmapInput} />;
-  // }
 
   return <RoadmapDashboard />;
 }

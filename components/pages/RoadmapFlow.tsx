@@ -329,11 +329,11 @@ export default function RoadmapFlow({
       {
         month: selectedMonth.month,
         monthTitle: selectedMonth.title,
-        week: selectedWeekIndex + 1,
+        week: (selectedWeekIndex ?? 0) + 1,
         weekTitle: selectedWeek.weekTitle,
-        weekLabel: selectedWeek.weekLabel || `Week ${selectedWeekIndex + 1}`,
+        weekLabel: `Week ${(selectedWeekIndex ?? 0) + 1}`,
         tasks: tasks.map((task, taskIndex) => ({
-          id: `${selectedMonth.month}-${selectedWeekIndex + 1}-${taskIndex}`,
+          id: `${selectedMonth.month}-${(selectedWeekIndex ?? 0) + 1}-${taskIndex}`,
           title: task,
           description: selectedWeek.weekDesc,
           status: "incomplete" as const,
@@ -393,9 +393,7 @@ export default function RoadmapFlow({
             gap={16}
             size={1.5}
             color={isDarkMode ? "#374151" : "#d1d5db"}
-            variant="dots"
-            as
-            const
+            variant={"dots" as import("reactflow").BackgroundVariant}
           />
         </ReactFlow>
 
@@ -513,7 +511,7 @@ export default function RoadmapFlow({
                       {selectedWeek.weekTitle}
                     </h3>
                     <p className="text-blue-500 font-semibold text-sm">
-                      {selectedWeek.weekLabel}
+                      Week {(selectedWeekIndex ?? 0) + 1}
                     </p>
                   </div>
                 </div>

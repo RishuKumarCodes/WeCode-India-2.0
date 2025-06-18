@@ -135,7 +135,6 @@ export default function RoadmapInputForm() {
     };
 
     try {
-      console.log('Submitting data:', insertData);
       const res = await fetch("/api/submit-user-roadmap-input", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -149,22 +148,7 @@ export default function RoadmapInputForm() {
 
       const data = await res.json();
       toast({ title: "Success!", description: "Your roadmap has been created." });
-      setGenerating(true);
-      setTimeout(() => {
-        setRoadmapInput({
-          goal,
-          skillLevel: skill_level,
-          months: Number(months),
-          dailyHours: Number(daily_hours),
-          targetCompaniesOrRoles: values.target_companies_or_roles || "",
-        });
-        setShowPlan(true);
-        setGenerating(false);
-        // Redirect to the view page with the roadmap ID
-      router.push(`/roadmap/view?id=${data.id}`);
-      }, 8000);
-      
-      
+      router.replace(`/roadmap/view?id=${data.id}`);
     } catch (error: any) {
       toast({
         title: "Failed to submit",
