@@ -112,7 +112,7 @@ export function generateMonthWisePlan(
 
     plan.push({
       month: i,
-      title,
+      title: `Month ${i}: ${title}`,
       focus,
       weeks
     });

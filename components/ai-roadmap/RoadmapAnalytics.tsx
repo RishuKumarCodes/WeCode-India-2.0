@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -14,13 +13,15 @@ import {
   Star
 } from "lucide-react";
 import { DashboardAnalytics } from "@/types/dashboardTypes";
+import { WeekTasks } from "@/types/taskTypes";
 
 interface UserDashboardProps {
   analytics: DashboardAnalytics;
   userName?: string;
+  mergedTasks?: WeekTasks[];
 }
 
-export default function UserDashboard({ analytics, userName }: UserDashboardProps) {
+export default function UserDashboard({ analytics, userName, mergedTasks }: UserDashboardProps) {
   const {
     completionPercent,
     tasksCompleted,
@@ -34,6 +35,12 @@ export default function UserDashboard({ analytics, userName }: UserDashboardProp
     averageTasksPerDay,
     estimatedCompletionDate
   } = analytics;
+
+  // Find the current week (first week with incomplete tasks) from mergedTasks
+  let ongoingWeek = null;
+  if (mergedTasks && mergedTasks.length > 0) {
+    ongoingWeek = mergedTasks.find((week) => week.tasks.some((task) => task.status === 'incomplete'));
+  }
 
   return (
     <div className="space-y-6 p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg">
@@ -138,6 +145,29 @@ export default function UserDashboard({ analytics, userName }: UserDashboardProp
           </CardContent>
         </Card>
       </div>
+
+      {/* Ongoing Week Section */}
+      {ongoingWeek && (
+        <Card className="bg-gradient-to-br from-yellow-100 to-yellow-200 border-yellow-300">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Clock className="w-5 h-5 text-yellow-600" />
+              Ongoing Week
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="text-lg font-bold text-yellow-700">
+                {ongoingWeek.monthTitle} - {ongoingWeek.weekTitle}
+              </div>
+              <div className="text-sm text-yellow-700">
+                {ongoingWeek.tasks.filter(t => t.status === 'completed').length} of {ongoingWeek.tasks.length} tasks completed
+              </div>
+              <Progress value={ongoingWeek.tasks.length > 0 ? Math.round((ongoingWeek.tasks.filter(t => t.status === 'completed').length / ongoingWeek.tasks.length) * 100) : 0} className="h-2" />
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Monthly Progress */}
       <Card>

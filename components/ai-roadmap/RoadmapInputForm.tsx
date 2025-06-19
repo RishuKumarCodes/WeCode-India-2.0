@@ -23,11 +23,7 @@ import {
   generateWeeklyBreakdown,
 } from "@/utils/generateRoadmap";
 import { MonthPlan, RoadmapInput } from "@/types/roadmapTypes";
-import RoadmapFlow from "@/components/pages/RoadmapFlow";
-
-// interface RoadmapInputFormProps {
-//   onRoadmapGenerated: (roadmap: RoadmapInput) => void;
-// }
+import RoadmapFlow from "@/components/ai-roadmap/RoadmapFlow";
 
 const initialState = {
   goal: "",
@@ -53,21 +49,6 @@ export default function RoadmapInputForm() {
   const [generating, setGenerating] = useState(false);
   const [showStep3, setShowStep3] = useState(false);
   const [showTaskTracker, setShowTaskTracker] = useState(false);
-
-  // Check for saved roadmap on mount
-  // useEffect(() => {
-  //   const savedRoadmap = localStorage.getItem('currentRoadmap');
-  //   if (savedRoadmap) {
-  //     try {
-  //       const parsedRoadmap = JSON.parse(savedRoadmap);
-  //       setRoadmapInput(parsedRoadmap);
-  //       setShowPlan(true);
-  //       setShowStep3(true);
-  //     } catch (error) {
-  //       console.error('Error parsing saved roadmap:', error);
-  //     }
-  //   }
-  // }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

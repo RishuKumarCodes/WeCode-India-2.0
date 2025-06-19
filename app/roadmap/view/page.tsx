@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import RoadmapFlow from "@/components/pages/RoadmapFlow";
+import RoadmapFlow from "@/components/ai-roadmap/RoadmapFlow";
 import { RoadmapInput } from "@/types/roadmapTypes";
 import { useToast } from "@/components/ui/use-toast";
 

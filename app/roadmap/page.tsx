@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSession } from "next-auth/react";
-import RoadmapDashboard from "@/components/roadmap/RoadmapDashboard";
+import RoadmapDashboard from "@/components/ai-roadmap/RoadmapDashboard";
 
 export default function RoadmapPage() {
   const { status } = useSession();

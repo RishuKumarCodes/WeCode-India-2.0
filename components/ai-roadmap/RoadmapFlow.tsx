@@ -156,8 +156,10 @@ const getInitialNodesAndEdges = (
 
 export default function RoadmapFlow({
   roadmapInput,
+  roadmapId,
 }: {
   roadmapInput: RoadmapInput;
+  roadmapId?: string;
 }) {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(
     null
@@ -307,43 +309,84 @@ export default function RoadmapFlow({
 
   // Format tasks for TaskTracker
   const formatTasksForTracker = () => {
-    if (!selectedMonth || !weeklyBreakdown || selectedWeekIndex === null)
-      return [];
-
-    const selectedWeek = weeklyBreakdown.weekly[selectedWeekIndex];
-    // Ensure minimum 4 tasks by duplicating and modifying existing tasks if needed
-    const tasks =
-      selectedWeek.tasks.length < 4
-        ? [
-            ...selectedWeek.tasks,
-            ...Array(4 - selectedWeek.tasks.length)
-              .fill(null)
-              .map(
-                (_, i) =>
-                  `Additional task ${i + 1} for ${selectedWeek.weekTitle}`
-              ),
-          ]
-        : selectedWeek.tasks;
-
-    return [
-      {
-        month: selectedMonth.month,
-        monthTitle: selectedMonth.title,
-        week: (selectedWeekIndex ?? 0) + 1,
-        weekTitle: selectedWeek.weekTitle,
-        weekLabel: `Week ${(selectedWeekIndex ?? 0) + 1}`,
-        tasks: tasks.map((task, taskIndex) => ({
-          id: `${selectedMonth.month}-${(selectedWeekIndex ?? 0) + 1}-${taskIndex}`,
-          title: task,
-          description: selectedWeek.weekDesc,
-          status: "incomplete" as const,
-          estimatedTime: "2-3 hours",
-        })),
-      },
-    ];
+    if (!selectedMonth || !weeklyBreakdown) return [];
+    return weeklyBreakdown.weekly.map((week, weekIndex) => ({
+      month: selectedMonth.month,
+      monthTitle: selectedMonth.title,
+      week: weekIndex + 1,
+      weekTitle: week.weekTitle,
+      weekLabel: `Week ${weekIndex + 1}`,
+      tasks: week.tasks.map((task, taskIndex) => ({
+        id: `${selectedMonth.month}-${week.week}-${taskIndex}`,
+        title: task,
+        description: week.weekDesc,
+        status: "incomplete" as const,
+        estimatedTime: "2-3 hours",
+      })),
+    }));
   };
 
   const memoizedNodeTypes = useMemo(() => nodeTypes, []);
+
+  console.log('selectedMonth:', selectedMonth);
+  console.log('weeklyBreakdown:', weeklyBreakdown);
+  console.log('selectedWeekIndex:', selectedWeekIndex);
+
+  const savedProgress = JSON.parse(localStorage.getItem(`roadmapTasks_${roadmapId}`) || '[]');
+
+  const mergedWeeks = (selectedMonth && weeklyBreakdown)
+    ? weeklyBreakdown.weekly.map((week, weekIndex) => {
+        const savedWeek = (savedProgress as any[]).find(
+          (w: any) =>
+            typeof w === 'object' &&
+            w !== null &&
+            typeof w.month === 'number' &&
+            typeof w.week === 'number' &&
+            w.month === selectedMonth.month &&
+            w.week === week.week
+        );
+        return {
+          month: selectedMonth.month,
+          monthTitle: selectedMonth.title,
+          week: week.week,
+          weekTitle: week.weekTitle,
+          weekLabel: (week as any).weekLabel ?? `Week ${week.week}`,
+          tasks: week.tasks.map((task, taskIndex) => {
+            // Find the saved task by unique ID
+            const savedTask = savedWeek?.tasks?.find(
+              (t: any) => t && typeof t === 'object' && 'id' in t && t.id === (
+                typeof task === 'object' && task !== null && 'id' in task
+                  ? (task as any).id
+                  : `${selectedMonth.month}-${week.week}-${taskIndex}`
+              )
+            );
+            if (
+              savedTask &&
+              typeof task === 'object' &&
+              task !== null &&
+              !Array.isArray(task)
+            ) {
+              return Object.assign(
+                {},
+                task,
+                {
+                  status: savedTask.status,
+                  completedAt: savedTask.completedAt,
+                }
+              );
+            }
+            // fallback: ensure all required fields
+            return {
+              id: `${selectedMonth.month}-${week.week}-${taskIndex}`,
+              title: typeof task === 'string' ? task : String((task as any)?.title ?? ''),
+              description: typeof task === 'object' && task !== null && 'description' in task ? (task as any).description : '',
+              status: savedTask?.status ?? 'incomplete',
+              estimatedTime: typeof task === 'object' && task !== null && 'estimatedTime' in task ? (task as any).estimatedTime : '2-3 hours',
+            };
+          }),
+        };
+      })
+    : [];
 
   return (
     <div
@@ -534,7 +577,7 @@ export default function RoadmapFlow({
                   Tasks
                 </h4>
                 <div className="space-y-2">
-                  {formatTasksForTracker()[0]?.tasks.map((task, i) => (
+                  {mergedWeeks[0]?.tasks.map((task, i) => (
                     <div
                       key={i}
                       className={`flex items-start gap-2 p-3 rounded-lg ${
@@ -643,8 +686,9 @@ export default function RoadmapFlow({
                     selectedWeekIndex === selectedTaskWeekIndex && (
                       <div className="mt-4">
                         <TaskTracker
-                          weeklyTasks={formatTasksForTracker()}
+                          weeklyTasks={mergedWeeks}
                           showDashboard={false}
+                          roadmapId={roadmapId}
                         />
                       </div>
                     )}

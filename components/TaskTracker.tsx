@@ -5,90 +5,120 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Check, Trophy, Rocket, Star } from "lucide-react";
 import { Task, WeekTasks, TaskProgress } from "@/types/taskTypes";
-// import { DashboardAnalytics } from "@/types/dashboardTypes";
-// import { SmartReminders as SmartRemindersType } from "@/types/reminderTypes";
-// import { AIFeedback as AIFeedbackType } from "@/types/feedbackTypes";
-// import { calculateDashboardAnalytics } from "@/utils/dashboardAnalytics";
-// import { generateSmartReminders } from "@/utils/smartReminders";
-// import { generateAIFeedback } from "@/utils/aiFeedback";
-// import UserDashboard from "@/components/dashboard/UserDashboard";
-// import SmartReminders from "@/components/dashboard/SmartReminders";
-// import AIFeedback from "@/components/dashboard/AIFeedback";
+import { DashboardAnalytics } from "@/types/dashboardTypes";
+import { SmartReminders as SmartRemindersType } from "@/types/reminderTypes";
+import { AIFeedback as AIFeedbackType } from "@/types/feedbackTypes";
+import { calculateDashboardAnalytics } from "@/utils/dashboardAnalytics";
+import { generateSmartReminders } from "@/utils/smartReminder";
+import { generateAIFeedback } from "@/utils/aiFeedback";
+// import UserDashboard from "@/components/ai-roadmap/RoadmapAnalytics";
+// import SmartReminders from "@/components/ai-roadmap/SmartReminders";
+// import AIFeedback from "@/components/ai-roadmap/AIFeedback";
 
 interface TaskTrackerProps {
   weeklyTasks: WeekTasks[];
   onProgressUpdate?: (progress: TaskProgress) => void;
-  // onAnalyticsUpdate?: (analytics: DashboardAnalytics) => void;
+  onAnalyticsUpdate?: (analytics: DashboardAnalytics) => void;
   showDashboard?: boolean;
   userName?: string;
+  roadmapId?: string;
 }
 
 export default function TaskTracker({ 
   weeklyTasks, 
   onProgressUpdate, 
-  // onAnalyticsUpdate,
+  onAnalyticsUpdate,
   showDashboard = true,
-  userName 
+  userName,
+  roadmapId
 }: TaskTrackerProps) {
-  const [tasks, setTasks] = useState<WeekTasks[]>(weeklyTasks);
+  const [tasks, setTasks] = useState<WeekTasks[]>(() => {
+    const key = roadmapId ? `roadmapTasks_${roadmapId}` : 'roadmapTasks';
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : weeklyTasks;
+    }
+    return weeklyTasks;
+  });
   const [progress, setProgress] = useState<TaskProgress>({
     totalTasks: 0,
     completedTasks: 0,
     completionPercentage: 0,
     currentLevel: 1,
   });
-  // const [analytics, setAnalytics] = useState<DashboardAnalytics | null>(null);
-  // const [smartReminders, setSmartReminders] = useState<SmartRemindersType | null>(null);
-  // const [aiFeedback, setAiFeedback] = useState<AIFeedbackType | null>(null);
+  const [analytics, setAnalytics] = useState<DashboardAnalytics | null>(null);
+  const [smartReminders, setSmartReminders] = useState<SmartRemindersType | null>(null);
+  const [aiFeedback, setAiFeedback] = useState<AIFeedbackType | null>(null);
   
   const { toast } = useToast();
 
-  // Calculate progress and analytics whenever tasks change
-  // useEffect(() => {
-  //   const totalTasks = tasks.reduce((sum, week) => sum + week.tasks.length, 0);
-  //   const completedTasks = tasks.reduce(
-  //     (sum, week) => sum + week.tasks.filter(task => task.status === 'completed').length,
-  //     0
-  //   );
-  //   const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-  //   const currentLevel = Math.floor(completedTasks / 3) + 1;
+  useEffect(() => {
+    const totalTasks = tasks.reduce((sum, week) => sum + week.tasks.length, 0);
+    const completedTasks = tasks.reduce(
+      (sum, week) => sum + week.tasks.filter(task => task.status === 'completed').length,
+      0
+    );
+    const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const currentLevel = Math.floor(completedTasks / 3) + 1;
 
-  //   const newProgress = {
-  //     totalTasks,
-  //     completedTasks,
-  //     completionPercentage,
-  //     currentLevel,
-  //   };
+    const newProgress = {
+      totalTasks,
+      completedTasks,
+      completionPercentage,
+      currentLevel,
+    };
 
-  //   setProgress(newProgress);
-  //   onProgressUpdate?.(newProgress);
+    setProgress(newProgress);
+    onProgressUpdate?.(newProgress);
 
-  //   // Calculate detailed analytics
-  //   const newAnalytics = calculateDashboardAnalytics(tasks);
-  //   setAnalytics(newAnalytics);
-  //   onAnalyticsUpdate?.(newAnalytics);
+    // Calculate detailed analytics
+    const newAnalytics = calculateDashboardAnalytics(tasks);
+    setAnalytics(newAnalytics);
+    onAnalyticsUpdate?.(newAnalytics);
 
-  //   // Generate smart reminders
-  //   const newSmartReminders = generateSmartReminders(tasks);
-  //   setSmartReminders(newSmartReminders);
+    // Generate smart reminders
+    const newSmartReminders = generateSmartReminders(tasks);
+    setSmartReminders(newSmartReminders);
 
-  //   // Generate AI feedback
-  //   const newAiFeedback = generateAIFeedback(tasks);
-  //   setAiFeedback(newAiFeedback);
-  // }, [tasks, onProgressUpdate, onAnalyticsUpdate]);
+    // Generate AI feedback
+    const newAiFeedback = generateAIFeedback(tasks);
+    setAiFeedback(newAiFeedback);
+  }, [tasks, onProgressUpdate, onAnalyticsUpdate]);
 
-  const handleTaskComplete = (monthIndex: number, taskIndex: number) => {
-    const updatedTasks = [...tasks];
-    const task = updatedTasks[monthIndex].tasks[taskIndex];
-    
-    if (task.status === 'completed') return;
+  // When roadmapId or weeklyTasks change, re-check localStorage or use new weeklyTasks
+  useEffect(() => {
+    const key = roadmapId ? `roadmapTasks_${roadmapId}` : 'roadmapTasks';
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      setTasks(JSON.parse(saved));
+    }
+  }, [roadmapId]);
 
-    task.status = 'completed';
-    task.completedAt = new Date().toISOString();
-    
-    setTasks(updatedTasks);
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    const key = roadmapId ? `roadmapTasks_${roadmapId}` : 'roadmapTasks';
+    localStorage.setItem(key, JSON.stringify(tasks));
+  }, [tasks, roadmapId]);
+
+  const handleTaskComplete = (weekKey: string, taskId: string) => {
+    setTasks(prevTasks => prevTasks.map(week => {
+      const currentWeekKey = `${week.month}-${week.week}`;
+      return currentWeekKey === weekKey
+        ? {
+            ...week,
+            tasks: week.tasks.map(task =>
+              task.id === taskId
+                ? { ...task, status: 'completed', completedAt: new Date().toISOString() }
+                : task
+            ),
+          }
+        : week;
+    }));
 
     // Show motivational toast
+    const week = tasks.find(w => `${w.month}-${w.week}` === weekKey);
+    const task = week?.tasks.find(t => t.id === taskId);
+    if (!task) return;
     const motivationalMessages = [
       `🎉 Hurray! You completed '${task.title}' — one step closer to your goal!`,
       `🚀 Awesome job! Keep up the momentum. Your consistency is your power.`,
@@ -96,9 +126,7 @@ export default function TaskTracker({
       `🔥 Great work! Every completed task brings you closer to mastery.`,
       `💪 You're crushing it! '${task.title}' is done and dusted!`,
     ];
-
     const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-    
     toast({
       title: "Task Completed!",
       description: randomMessage,
@@ -120,14 +148,20 @@ export default function TaskTracker({
     }
   };
 
-  const handleTaskUncomplete = (monthIndex: number, taskIndex: number) => {
-    const updatedTasks = [...tasks];
-    const task = updatedTasks[monthIndex].tasks[taskIndex];
-    
-    task.status = 'incomplete';
-    task.completedAt = undefined;
-    
-    setTasks(updatedTasks);
+  const handleTaskUncomplete = (weekKey: string, taskId: string) => {
+    setTasks(prevTasks => prevTasks.map(week => {
+      const currentWeekKey = `${week.month}-${week.week}`;
+      return currentWeekKey === weekKey
+        ? {
+            ...week,
+            tasks: week.tasks.map(task =>
+              task.id === taskId
+                ? { ...task, status: 'incomplete', completedAt: undefined }
+                : task
+            ),
+          }
+        : week;
+    }));
   };
 
   const resetAllTasks = () => {
@@ -185,71 +219,81 @@ export default function TaskTracker({
           </Button>
         </div>
 
-        {tasks.map((month, monthIndex) => (
-          <div
-            key={`${month.month}-${month.week}`}
-            className="p-5 rounded-lg border-l-4 border-primary bg-muted/30"
-          >
-            <div className="mb-4">
-              <h4 className="font-semibold text-lg text-accent-foreground">
-                {month.monthTitle} - {month.weekTitle}
-              </h4>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="text-sm text-muted-foreground">
-                  {month.tasks.filter(t => t.status === 'completed').length}/{month.tasks.length} completed
-                </div>
-                {month.tasks.filter(t => t.status === 'completed').length === month.tasks.length && (
-                  <div className="flex items-center gap-1 text-green-600 text-sm font-medium">
-                    <Check className="w-4 h-4" />
-                    Week Complete!
+        {tasks.map((week) => {
+          const weekKey = `${week.month}-${week.week}`;
+          console.log('Rendering week:', weekKey, week.monthTitle, week.weekTitle);
+          week.tasks.forEach(task => {
+            console.log('  Task ID:', task.id, '| Title:', task.title);
+          });
+          return (
+            <div
+              key={weekKey}
+              className="p-5 rounded-lg border-l-4 border-primary bg-muted/30"
+            >
+              <div className="mb-4">
+                <h4 className="font-semibold text-lg text-accent-foreground">
+                  {week.monthTitle} - {week.weekTitle}
+                </h4>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="text-sm text-muted-foreground">
+                    {week.tasks.filter(t => t.status === 'completed').length}/{week.tasks.length} completed
                   </div>
-                )}
+                  {week.tasks.filter(t => t.status === 'completed').length === week.tasks.length && (
+                    <div className="flex items-center gap-1 text-green-600 text-sm font-medium">
+                      <Check className="w-4 h-4" />
+                      Week Complete!
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {week.tasks.map((task) => {
+                  return (
+                    <div
+                      key={task.id}
+                      className={`flex items-start gap-3 p-3 rounded-md border transition-all ${
+                        task.status === 'completed'
+                          ? 'bg-green-50 border-green-200 opacity-75'
+                          : 'bg-background border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <Checkbox
+                        checked={task.status === 'completed'}
+                        onCheckedChange={(checked) => {
+                          console.log('Checkbox changed for task:', task.id, '| Checked:', checked, '| Week:', weekKey);
+                          if (checked) {
+                            handleTaskComplete(weekKey, task.id);
+                          } else {
+                            handleTaskUncomplete(weekKey, task.id);
+                          }
+                        }}
+                        className="mt-1"
+                      />
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className={`font-medium ${task.status === 'completed' ? 'line-through text-muted-foreground' : ''}`}>
+                          {task.title}
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          {task.description}
+                        </div>
+                        <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                          <span>⏱️ {task.estimatedTime}</span>
+                          {task.completedAt && (
+                            <span className="text-green-600">
+                              ✅ Completed {new Date(task.completedAt).toLocaleDateString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            <div className="space-y-3">
-              {month.tasks.map((task, taskIndex) => (
-                <div
-                  key={task.id}
-                  className={`flex items-start gap-3 p-3 rounded-md border transition-all ${
-                    task.status === 'completed'
-                      ? 'bg-green-50 border-green-200 opacity-75'
-                      : 'bg-background border-border hover:border-primary/50'
-                  }`}
-                >
-                  <Checkbox
-                    checked={task.status === 'completed'}
-                    onCheckedChange={(checked) => {
-                      if (checked) {
-                        handleTaskComplete(monthIndex, taskIndex);
-                      } else {
-                        handleTaskUncomplete(monthIndex, taskIndex);
-                      }
-                    }}
-                    className="mt-1"
-                  />
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className={`font-medium ${task.status === 'completed' ? 'line-through text-muted-foreground' : ''}`}>
-                      {task.title}
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">
-                      {task.description}
-                    </div>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                      <span>⏱️ {task.estimatedTime}</span>
-                      {task.completedAt && (
-                        <span className="text-green-600">
-                          ✅ Completed {new Date(task.completedAt).toLocaleDateString()}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Motivational Footer */}

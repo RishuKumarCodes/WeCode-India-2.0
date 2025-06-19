@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { RoadmapInput } from "@/types/roadmapTypes";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import RoadmapInputForm from "./RoadmapInputForm";
 
 // interface RoadmapDashboardProps {
 //   onNewRoadmap: (e?: React.MouseEvent) => void;
@@ -125,6 +124,12 @@ export default function RoadmapDashboard() {
                       className="bg-blue-600 hover:bg-blue-700 text-white"
                     >
                       View Roadmap
+                    </Button>
+                    <Button
+                      onClick={() => router.push(`/roadmap/analytics?id=${roadmap.id}`)}
+                      className="mt-2 bg-green-600 hover:bg-green-700 text-white"
+                    >
+                      View Analytics
                     </Button>
                   </div>
                 </div>
