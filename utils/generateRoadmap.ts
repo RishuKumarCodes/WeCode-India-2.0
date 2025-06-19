@@ -26,65 +26,63 @@ export function generateMonthWisePlan(
   skillLevel: string,
   months: number
 ): MonthPlan[] {
+  if (!goal || !skillLevel || !months) {
+    throw new Error('Missing required parameters: goal, skillLevel, and months are required');
+  }
+
   let plan: MonthPlan[] = [];
 
-  const skill = skillLevel.toLowerCase();
+  // Ensure skillLevel is a string and convert to lowercase
+  const skill = String(skillLevel).toLowerCase();
   const skillKey = skill === "beginner" ? "beginner" : skill === "advanced" ? "advanced" : "intermediate";
 
   for (let i = 1; i <= months; i++) {
+    const weeks = [];
     let title = "";
     let focus = "";
-    let weeks = [];
 
-    // Custom titles for phases; adapt for longer plans, short plans, etc.
-    if (months <= 2) {
+    // Generate title and focus based on skill level and month
+    if (skillKey === "beginner") {
       if (i === 1) {
-        title = "Crash Course & Foundations";
-        focus =
-          "Jump straight into the most important concepts for your goal. With consistent daily effort, you'll rapidly build a solid understanding. Stay focused, pace yourself, and remember: every bit counts when learning fast!";
+        title = "Getting Started";
+        focus = `Introduction to ${goal} fundamentals and basic concepts.`;
+      } else if (i === 2) {
+        title = "Building Foundations";
+        focus = `Deep dive into core ${goal} concepts and practical applications.`;
+      } else if (i === 3) {
+        title = "Practical Application";
+        focus = `Hands-on projects and real-world examples in ${goal}.`;
       } else {
-        title = "Mock Assessments & Intensive Revision";
-        focus =
-          "Simulate real scenarios relevant to your goal. Focus on practice tests, project sprints, or interview simulations. Review weak spots and reflect — you're almost ready to take on your challenge!";
+        title = "Progress and Growth";
+        focus = `Review, assessment, and preparation for intermediate level.`;
+      }
+    } else if (skillKey === "intermediate") {
+      if (i === 1) {
+        title = "Advanced Concepts";
+        focus = `Exploring advanced ${goal} concepts and techniques.`;
+      } else if (i === 2) {
+        title = "Collaborative Learning";
+        focus = `Team projects and pair programming in ${goal}.`;
+      } else if (i === 3) {
+        title = "Real-World Projects";
+        focus = `Building complex applications and solving real problems.`;
+      } else {
+        title = "Skill Assessment";
+        focus = `Evaluating progress and identifying areas for improvement.`;
       }
     } else {
       if (i === 1) {
-        title =
-          skill === "beginner"
-            ? "Starting Strong: Building Core Foundations"
-            : "Month 1: Foundations Refreshed";
-        focus =
-          skill === "beginner"
-            ? "Begin with the fundamental topics. Develop core concepts and build confidence with easy wins. Focus on establishing consistent learning habits—and celebrate your momentum!"
-            : "Refresh and solidify your core skills to ensure you start on strong footing. Tackle fundamentals with sharper focus and brush up any rusty areas. This puts you in prime position for advanced topics ahead.";
-      } else if (i === months) {
-        title = "Final Preparation & Confidence Boost";
-        focus =
-          "This month, focus on targeted revision and simulate real challenges (mock tests, interviews, presentations, etc.). Reflect on your journey, address last-minute doubts, and trust your preparation as you step up for your goal!";
-      } else if (i === months - 1 && months > 3) {
-        title = "Mock Assessments & Real-World Practice";
-        focus =
-          "Take mock interviews, practice timed assessments, or build a capstone project relevant to your goal/target company. Use feedback to fine-tune your preparation. Apply your skills in realistic settings!";
-      } else if (i <= Math.ceil(months * 0.4)) {
-        title = "Core Concepts Deep Dive";
-        focus =
-          "Dedicate this phase to mastering essential topics. Progressively tackle harder problems or projects, and measure your growth. Stay curious, and don't hesitate to revisit the basics for greater clarity.";
-      } else if (i <= Math.ceil(months * 0.7)) {
-        title =
-          skill === "beginner"
-            ? "Building Experience & Confidence"
-            : "Advanced Applications & Competitive Prep";
-        focus =
-          skill === "beginner"
-            ? "Explore intermediate concepts. Work on small projects or start regular practices that reinforce your understanding. Your grasp is improving—keep going!"
-            : "Push into advanced problems, case studies, or leadership-level scenarios. Connect concepts, try competitive challenges, and keep your vision set on your targets.";
+        title = "Expert Leadership";
+        focus = `Mentoring and leading ${goal} projects.`;
+      } else if (i === 2) {
+        title = "Advanced Challenges";
+        focus = `Solving complex problems and competitive challenges.`;
+      } else if (i === 3) {
+        title = "Capstone Project";
+        focus = `Building a comprehensive ${goal} project.`;
       } else {
-        title =
-          months >= 4
-            ? "Revision & Targeted Practice"
-            : "Focused Revision and Simulations";
-        focus =
-          "Review all you've covered so far. Identify and address weaknesses. Simulate tests or interviews. This phase is about confidence, clarity, and trusting your hard work!";
+        title = "Professional Preparation";
+        focus = `Interview preparation and deep technical dives.`;
       }
     }
 
@@ -127,13 +125,17 @@ export function generateMonthWisePlan(
 export function generateWeeklyBreakdown(
   {
     goal,
-    skill_level,
+    skillLevel,
     months,
-    daily_hours,
-    target_companies_or_roles,
+    dailyHours,
+    targetCompaniesOrRoles,
   }: RoadmapInput,
   monthPlans: MonthPlan[]
 ) {
+  if (!goal || !skillLevel || !months || !dailyHours) {
+    throw new Error('Missing required parameters in RoadmapInput');
+  }
+
   // Fully up-to-date resource platforms
   const resources = [
     {
@@ -177,15 +179,7 @@ export function generateWeeklyBreakdown(
   // 4 weeks per month to mirror practical learning cycles
   const weeksPerMonth = 4;
 
-  // Format skill for lookup
-  const skillKey =
-    skill_level.toLowerCase() === "beginner"
-      ? "beginner"
-      : skill_level.toLowerCase() === "advanced"
-      ? "advanced"
-      : "intermediate";
-
-  return monthPlans.map((month, mIdx) => {
+  return monthPlans.map((month) => {
     const weekly = [];
 
     for (let w = 0; w < weeksPerMonth; w++) {
@@ -197,15 +191,15 @@ export function generateWeeklyBreakdown(
       let weekResources: { name: string; url: string }[] = [];
 
       // Week titles logic that is goal-focused and progressive
-      weekLabel = `Week ${w + 1}: ${planBySkill[skillKey][w % 4]}`;
+      weekLabel = `Week ${w + 1}: ${planBySkill[skillLevel.toLowerCase() as keyof typeof planBySkill][w % 4]}`;
       weekTitle = weekLabel; // Set weekTitle to the same value as weekLabel
 
       // Goal-tailored, measurable description
       if (w === 0) {
-        weekDesc = `Kick off with an overview of ${goal}. Research the latest trends for 2025 using trusted sources. Write down your current understanding and define your weekly outcome—this lays your groundwork.`;
+        weekDesc = `Start with fundamental concepts and basic theory. Complete introductory tutorials and set up your development environment.`;
         tasks = [
-          `Read/watch: "Introduction to ${goal}" (look for 2024–2025 content).`,
-          `Write a 2-paragraph note: "Why ${goal} matters in 2025 & my career."`,
+          `Watch 2-3 introductory videos on ${goal}.`,
+          `Complete the setup guide and run your first example.`,
         ];
       } else if (w === 1) {
         weekDesc = `Deep dive into main topics and start hands-on practice. Attempt curated problems or code samples. Collaborate via Discord, Slack, or online forums for peer support.`;
@@ -221,8 +215,8 @@ export function generateWeeklyBreakdown(
         ];
       } else {
         weekDesc =
-          target_companies_or_roles && target_companies_or_roles.length > 0
-            ? `Assess your current level with mock tests or past ${target_companies_or_roles} interview questions. Stretch goal: Identify one new competency to tackle next month.`
+          targetCompaniesOrRoles && targetCompaniesOrRoles.length > 0
+            ? `Assess your current level with mock tests or past ${targetCompaniesOrRoles} interview questions. Stretch goal: Identify one new competency to tackle next month.`
             : `Assess your progress with a timed challenge or peer review. Set 1–2 stretch goals for the coming month and reflect on what's working.`;
         tasks = [
           `Attempt a mock test, quiz, or company-specific problem set.`,
@@ -235,49 +229,44 @@ export function generateWeeklyBreakdown(
         weekResources = [
           {
             name: "YouTube (latest lectures)",
-            url: resources[0].link + encodeURIComponent(`${goal} roadmap 2025`),
+            url: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${goal} roadmap 2025`)}`,
           },
           {
             name: "Coursera - trending module",
-            url: resources[3].link + encodeURIComponent(goal),
+            url: `https://www.coursera.org/search?query=${encodeURIComponent(goal)}`,
           },
         ];
       } else if (w === 1) {
         weekResources = [
           {
             name: "LeetCode (targeted problems)",
-            url:
-              resources[1].link +
-              encodeURIComponent(goal.toLowerCase().replace(/\s/g, "-")),
+            url: `https://leetcode.com/tag/${encodeURIComponent(goal.toLowerCase().replace(/\s/g, "-"))}`,
           },
           {
             name: "GeeksforGeeks",
-            url:
-              resources[2].link +
-              "tag/" +
-              encodeURIComponent(goal.toLowerCase().replace(/\s/g, "-")),
+            url: `https://www.geeksforgeeks.org/tag/${encodeURIComponent(goal.toLowerCase().replace(/\s/g, "-"))}`,
           },
         ];
       } else if (w === 2) {
         weekResources = [
           {
             name: "freeCodeCamp Project Tutorials",
-            url: resources[6].link,
+            url: "https://www.freecodecamp.org/learn/",
           },
           {
             name: "CS50 (project ideas)",
-            url: resources[4].link,
+            url: "https://cs50.harvard.edu/x/2025/",
           },
         ];
       } else {
         weekResources = [
           {
             name: "Khan Academy (revision/extra practice)",
-            url: resources[5].link + encodeURIComponent(goal),
+            url: `https://www.khanacademy.org/search?page_search_query=${encodeURIComponent(goal)}`,
           },
           {
             name: "Educative.io Interview Prep",
-            url: resources[7].link + encodeURIComponent(goal),
+            url: `https://www.educative.io/search?q=${encodeURIComponent(goal)}`,
           },
         ];
       }

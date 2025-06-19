@@ -1,9 +1,9 @@
 export interface RoadmapInput {
   goal: string;
-  skill_level: string;
+  skillLevel: string;
   months: number;
-  daily_hours?: number;
-  target_companies_or_roles?: string | null;
+  dailyHours?: number;
+  targetCompaniesOrRoles?: string | null;
 };
 
 export interface MonthPlan {

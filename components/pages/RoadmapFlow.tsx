@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -21,7 +21,13 @@ import { RoadmapInput } from "@/types/roadmapTypes";
 import { Button } from "@/components/ui/button";
 import TaskTracker from "@/components/TaskTracker";
 
-const CustomNode = ({ data, selected }: { data: { label: string; subtitle?: string; onClick?: () => void }; selected: boolean }) => {
+const CustomNode = ({
+  data,
+  selected,
+}: {
+  data: { label: string; subtitle?: string; onClick?: () => void };
+  selected: boolean;
+}) => {
   const isDark = document.documentElement.classList.contains("dark");
 
   return (
@@ -73,14 +79,18 @@ const CustomNode = ({ data, selected }: { data: { label: string; subtitle?: stri
   );
 };
 
+// Move nodeTypes outside component and memoize it
 const nodeTypes = {
   custom: CustomNode,
 };
 
-const getInitialNodesAndEdges = (roadmapInput: RoadmapInput, onSelectMonth: (index: number) => void) => {
+const getInitialNodesAndEdges = (
+  roadmapInput: RoadmapInput,
+  onSelectMonth: (index: number) => void
+) => {
   const monthPlans = generateMonthWisePlan(
     roadmapInput.goal,
-    roadmapInput.skill_level,
+    roadmapInput.skillLevel,
     Number(roadmapInput.months)
   );
 
@@ -93,7 +103,11 @@ const getInitialNodesAndEdges = (roadmapInput: RoadmapInput, onSelectMonth: (ind
     type: "custom",
     data: {
       label: roadmapInput.goal,
-      subtitle: `${roadmapInput.skill_level} Level${roadmapInput.target_companies_or_roles ? ` • ${roadmapInput.target_companies_or_roles}` : ''}`,
+      subtitle: `${roadmapInput.skillLevel} Level${
+        roadmapInput.targetCompaniesOrRoles
+          ? ` • ${roadmapInput.targetCompaniesOrRoles}`
+          : ""
+      }`,
     },
     position: { x: 100, y: 300 },
   });
@@ -145,17 +159,43 @@ export default function RoadmapFlow({
 }: {
   roadmapInput: RoadmapInput;
 }) {
-  const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(null);
-  const [selectedWeekIndex, setSelectedWeekIndex] = useState<number | null>(null);
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState<number | null>(
+    null
+  );
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState<number | null>(
+    null
+  );
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showWeeklyNodes, setShowWeeklyNodes] = useState(false);
   const [showTasks, setShowTasks] = useState(false);
-  const [selectedTaskWeekIndex, setSelectedTaskWeekIndex] = useState<number | null>(null);
+  const [selectedTaskWeekIndex, setSelectedTaskWeekIndex] = useState<
+    number | null
+  >(null);
+
+  // Save roadmap to localStorage when it changes
+  useEffect(() => {
+    if (roadmapInput) {
+      localStorage.setItem("currentRoadmap", JSON.stringify(roadmapInput));
+    }
+  }, [roadmapInput]);
+
+  // Load dark mode preference from localStorage
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("roadmapDarkMode");
+    if (savedDarkMode) {
+      setIsDarkMode(savedDarkMode === "true");
+      if (savedDarkMode === "true") {
+        document.documentElement.classList.add("dark");
+      }
+    }
+  }, []);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
     document.documentElement.classList.toggle("dark");
+    localStorage.setItem("roadmapDarkMode", String(newDarkMode));
   };
 
   const {
@@ -267,36 +307,43 @@ export default function RoadmapFlow({
 
   // Format tasks for TaskTracker
   const formatTasksForTracker = () => {
-    if (!selectedMonth || !weeklyBreakdown || selectedWeekIndex === null) return [];
-    
+    if (!selectedMonth || !weeklyBreakdown || selectedWeekIndex === null)
+      return [];
+
     const selectedWeek = weeklyBreakdown.weekly[selectedWeekIndex];
     // Ensure minimum 4 tasks by duplicating and modifying existing tasks if needed
-    const tasks = selectedWeek.tasks.length < 4 
-      ? [
-          ...selectedWeek.tasks,
-          ...Array(4 - selectedWeek.tasks.length).fill(null).map((_, i) => 
-            `Additional task ${i + 1} for ${selectedWeek.weekTitle}`
-          )
-        ]
-      : selectedWeek.tasks;
+    const tasks =
+      selectedWeek.tasks.length < 4
+        ? [
+            ...selectedWeek.tasks,
+            ...Array(4 - selectedWeek.tasks.length)
+              .fill(null)
+              .map(
+                (_, i) =>
+                  `Additional task ${i + 1} for ${selectedWeek.weekTitle}`
+              ),
+          ]
+        : selectedWeek.tasks;
 
-    return [{
-      month: selectedMonth.month,
-      monthTitle: selectedMonth.title,
-      week: selectedWeekIndex + 1,
-      weekTitle: selectedWeek.weekTitle,
-      tasks: tasks.map((task, taskIndex) => ({
-        id: `${selectedMonth.month}-${selectedWeekIndex + 1}-${taskIndex}`,
-        title: task,
-        description: selectedWeek.weekDesc,
-        status: 'incomplete' as const,
-        estimatedTime: '2-3 hours',
-      }))
-    }];
+    return [
+      {
+        month: selectedMonth.month,
+        monthTitle: selectedMonth.title,
+        week: (selectedWeekIndex ?? 0) + 1,
+        weekTitle: selectedWeek.weekTitle,
+        weekLabel: `Week ${(selectedWeekIndex ?? 0) + 1}`,
+        tasks: tasks.map((task, taskIndex) => ({
+          id: `${selectedMonth.month}-${(selectedWeekIndex ?? 0) + 1}-${taskIndex}`,
+          title: task,
+          description: selectedWeek.weekDesc,
+          status: "incomplete" as const,
+          estimatedTime: "2-3 hours",
+        })),
+      },
+    ];
   };
 
-  console.log("Nodes:", nodes);
-  console.log("Edges:", edges);
+  const memoizedNodeTypes = useMemo(() => nodeTypes, []);
 
   return (
     <div
@@ -313,7 +360,7 @@ export default function RoadmapFlow({
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onNodeClick={onNodeClick}
-          nodeTypes={nodeTypes}
+          nodeTypes={memoizedNodeTypes}
           fitView
           fitViewOptions={{
             padding: 0.15,
@@ -346,7 +393,7 @@ export default function RoadmapFlow({
             gap={16}
             size={1.5}
             color={isDarkMode ? "#374151" : "#d1d5db"}
-            variant="dots"
+            variant={"dots" as import("reactflow").BackgroundVariant}
           />
         </ReactFlow>
 
@@ -373,8 +420,7 @@ export default function RoadmapFlow({
                     isDarkMode ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  {roadmapInput.months} months • {roadmapInput.skill_level}{" "}
-                  Level
+                  {roadmapInput.months} months • {roadmapInput.skillLevel} Level
                 </p>
               </div>
               <button
@@ -465,7 +511,7 @@ export default function RoadmapFlow({
                       {selectedWeek.weekTitle}
                     </h3>
                     <p className="text-blue-500 font-semibold text-sm">
-                      {selectedWeek.weekLabel}
+                      Week {(selectedWeekIndex ?? 0) + 1}
                     </p>
                   </div>
                 </div>
@@ -512,9 +558,11 @@ export default function RoadmapFlow({
                         >
                           {task.title}
                         </span>
-                        <p className={`text-xs mt-1 ${
-                          isDarkMode ? "text-gray-400" : "text-gray-500"
-                        }`}>
+                        <p
+                          className={`text-xs mt-1 ${
+                            isDarkMode ? "text-gray-400" : "text-gray-500"
+                          }`}
+                        >
                           Estimated time: {task.estimatedTime}
                         </p>
                       </div>
@@ -571,7 +619,7 @@ export default function RoadmapFlow({
                   ))}
                 </div>
                 <div className="mt-4">
-                  <Button 
+                  <Button
                     onClick={() => {
                       if (selectedWeekIndex === selectedTaskWeekIndex) {
                         setShowTasks(!showTasks);
@@ -586,16 +634,20 @@ export default function RoadmapFlow({
                         : "bg-blue-500 hover:bg-blue-600 text-white"
                     }`}
                   >
-                    {showTasks && selectedWeekIndex === selectedTaskWeekIndex ? "Hide Tasks" : "Break Down into Tasks"}
+                    {showTasks && selectedWeekIndex === selectedTaskWeekIndex
+                      ? "Hide Tasks"
+                      : "Break Down into Tasks"}
                   </Button>
-                  {showTasks && selectedWeek && selectedWeekIndex === selectedTaskWeekIndex && (
-                    <div className="mt-4">
-                      <TaskTracker 
-                        weeklyTasks={formatTasksForTracker()}
-                        showDashboard={false}
-                      />
-                    </div>
-                  )}
+                  {showTasks &&
+                    selectedWeek &&
+                    selectedWeekIndex === selectedTaskWeekIndex && (
+                      <div className="mt-4">
+                        <TaskTracker
+                          weeklyTasks={formatTasksForTracker()}
+                          showDashboard={false}
+                        />
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

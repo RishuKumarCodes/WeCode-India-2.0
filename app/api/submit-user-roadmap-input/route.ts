@@ -29,14 +29,14 @@ export async function POST(req: Request) {
 
     const {
       goal,
-      skill_level,
+      skillLevel,
       months,
-      daily_hours,
-      target_companies_or_roles,
+      dailyHours,
+      targetCompaniesOrRoles,
     } = await req.json();
 
     // Validate required fields
-    if (!goal || !skill_level || !months || !daily_hours) {
+    if (!goal || !skillLevel || !months || !dailyHours) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -47,10 +47,10 @@ export async function POST(req: Request) {
     const roadmapInput = await prismaClient.aiRoadmapInput.create({
       data: {
         goal,
-        skillLevel: skill_level,
+        skillLevel,
         months: parseInt(months),
-        dailyHours: parseInt(daily_hours),
-        targetCompaniesOrRoles: target_companies_or_roles || '',
+        dailyHours: parseInt(dailyHours),
+        targetCompaniesOrRoles: targetCompaniesOrRoles || '',
         userId: session.user.id,
         userName: user.name || '',
         userEmail: user.email || '',
