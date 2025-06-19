@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Arrays & Strings",
+    "description": "Foundation of data structures",
+    "progress": 75,
+    "icon": "Code",
+    "slug": "arrays-strings"
+  },
+  {
+    "title": "Linked Lists",
+    "description": "Linear data structures",
+    "progress": 60,
+    "icon": "Code",
+    "slug": "linked-lists"
+  },
+  {
+    "title": "Stacks & Queues",
+    "description": "LIFO and FIFO structures",
+    "progress": 40,
+    "icon": "Code",
+    "slug": "stacks-queues"
+  },
+  {
+    "title": "Trees & Graphs",
+    "description": "Hierarchical structures",
+    "progress": 25,
+    "icon": "Code",
+    "slug": "trees-graphs"
+  },
+  {
+    "title": "Searching & Sorting",
+    "description": "Fundamental algorithms",
+    "progress": 50,
+    "icon": "Code",
+    "slug": "searching-sorting"
+  },
+  {
+    "title": "Dynamic Programming",
+    "description": "Optimization technique",
+    "progress": 10,
+    "icon": "Code",
+    "slug": "dynamic-programming"
+  },
+  {
+    "title": "Recursion & Backtracking",
+    "description": "Self-referential solutions",
+    "progress": 30,
+    "icon": "Code",
+    "slug": "recursion-backtracking"
+  },
+  {
+    "title": "Greedy Algorithms",
+    "description": "Locally optimal choices",
+    "progress": 20,
+    "icon": "Code",
+    "slug": "greedy"
+  }
+]
