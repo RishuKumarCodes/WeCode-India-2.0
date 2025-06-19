@@ -14,6 +14,18 @@ export async function GET(request: Request) {
       );
     }
 
+    // Fetch the user by email to get the user id
+    const user = await prismaClient.user.findUnique({
+      where: { email: session.user.email }
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const roadmapId = searchParams.get('id');
 
@@ -22,7 +34,7 @@ export async function GET(request: Request) {
       const roadmap = await prismaClient.aiRoadmapInput.findFirst({
         where: {
           id: roadmapId,
-          userEmail: session.user.email
+          userId: user.id
         }
       });
 
@@ -39,7 +51,7 @@ export async function GET(request: Request) {
     // Fetch all roadmaps for the user
     const roadmaps = await prismaClient.aiRoadmapInput.findMany({
       where: {
-        userEmail: session.user.email
+        userId: user.id
       },
       orderBy: {
         createdAt: 'desc'

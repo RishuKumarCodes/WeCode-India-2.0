@@ -52,8 +52,6 @@ export async function POST(req: Request) {
         dailyHours: parseInt(dailyHours),
         targetCompaniesOrRoles: targetCompaniesOrRoles || '',
         userId: session.user.id,
-        userName: user.name || '',
-        userEmail: user.email || '',
       },
     });
 
