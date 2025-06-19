@@ -112,3 +112,24 @@ model AiRoadmapInput {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 }
+
+model Doubt {
+  id        String   @id @default(uuid())
+  username  String
+  title     String
+  question  String
+  tags      String[]
+  image_url String?
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model DoubtResponse {
+  id         String   @id @default(uuid())
+  type       String   // 'user_response'
+  doubt_id   String
+  username   String
+  response   String?
+  image_url  String?
+  created_at DateTime @default(now())
+}
