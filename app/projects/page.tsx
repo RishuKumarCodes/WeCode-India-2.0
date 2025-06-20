@@ -1,223 +1,17 @@
-// "use client";
-
-// import * as React from "react";
-// import Link from "next/link";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardFooter,
-//   CardHeader,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { Badge } from "@/components/ui/badge";
-// import { Input } from "@/components/ui/input";
-// import { Progress } from "@/components/ui/progress";
-// import {
-//   ArrowRight,
-//   FileText,
-//   Globe,
-//   Layout,
-//   Search,
-//   Server,
-//   Smartphone,
-// } from "lucide-react";
-
-// // Adjust this import to point at your root JSON file:
-// import projectsList from "../../data/projects.json";
-
-// export default function ProjectsPage() {
-//   const [searchQuery, setSearchQuery] = React.useState("");
-//   const [difficulty, setDifficulty] = React.useState("all");
-//   const [category, setCategory] = React.useState("all");
-
-//   const filteredProjects = projectsList.filter((project: any) => {
-//     const matchesSearch =
-//       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       project.techStack.some((tech: string) =>
-//         tech.toLowerCase().includes(searchQuery.toLowerCase())
-//       );
-
-//     const matchesDifficulty =
-//       difficulty === "all" ||
-//       project.difficulty.toLowerCase() === difficulty.toLowerCase();
-//     const matchesCategory =
-//       category === "all" ||
-//       project.domain.toLowerCase().includes(category.toLowerCase());
-
-//     return matchesSearch && matchesDifficulty && matchesCategory;
-//   });
-
-//   // Map icon names in your JSON to the lucide components you want:
-//   const iconMap: Record<string, React.FC<any>> = {
-//     Layout,
-//     Globe,
-//     FileText,
-//     Server,
-//     Smartphone,
-//   };
-
-//   return (
-//     <div className="container py-12">
-//       <div className="flex flex-col space-y-4">
-//         <div className="flex flex-col space-y-2">
-//           <h1 className="text-4xl font-bold tracking-tight">
-//             Project-Based Learning
-//           </h1>
-//           <p className="text-muted-foreground">
-//             Build real-world projects to apply your skills and enhance your
-//             portfolio.
-//           </p>
-//         </div>
-
-//         <div className="flex flex-col gap-4 mt-6">
-//           <div className="grid gap-4 md:grid-cols-4">
-//             <div className="relative md:col-span-2">
-//               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-//               <Input
-//                 type="search"
-//                 placeholder="Search projects by name, description, or technology..."
-//                 className="pl-8"
-//                 value={searchQuery}
-//                 onChange={(e) => setSearchQuery(e.target.value)}
-//               />
-//             </div>
-//             <div>
-//               <select
-//                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring"
-//                 value={difficulty}
-//                 onChange={(e) => setDifficulty(e.target.value)}
-//               >
-//                 <option value="all">All Difficulties</option>
-//                 <option value="beginner">Beginner</option>
-//                 <option value="intermediate">Intermediate</option>
-//                 <option value="advanced">Advanced</option>
-//               </select>
-//             </div>
-//             <div>
-//               <select
-//                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring"
-//                 value={category}
-//                 onChange={(e) => setCategory(e.target.value)}
-//               >
-//                 <option value="all">All Categories</option>
-//                 <option value="web">Web Development</option>
-//                 <option value="full stack">Full Stack</option>
-//                 <option value="mobile">Mobile Development</option>
-//               </select>
-//             </div>
-//           </div>
-
-//           <Tabs defaultValue="all" className="w-full">
-//             <TabsList className="grid w-full md:w-auto grid-cols-4">
-//               <TabsTrigger value="all">All Projects</TabsTrigger>
-//               <TabsTrigger value="inprogress">In Progress</TabsTrigger>
-//               <TabsTrigger value="completed">Completed</TabsTrigger>
-//               <TabsTrigger value="recommended">Recommended</TabsTrigger>
-//             </TabsList>
-//           </Tabs>
-//         </div>
-
-//         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-//           {filteredProjects.length > 0 ? (
-//             filteredProjects.map((project: any) => {
-//               const Icon =
-//                 iconMap[project.icon] ||
-//                 Layout /* fallback if icon key missing */;
-//               return (
-//                 <Card key={project.id} className="overflow-hidden">
-//                   <CardHeader className="pb-3">
-//                     <div className="flex items-center justify-between">
-//                       <Icon className="h-5 w-5 text-primary" />
-//                       <Badge
-//                         variant={
-//                           project.difficulty === "Beginner"
-//                             ? "default"
-//                             : project.difficulty === "Intermediate"
-//                             ? "secondary"
-//                             : "destructive"
-//                         }
-//                       >
-//                         {project.difficulty}
-//                       </Badge>
-//                     </div>
-//                     <CardTitle className="text-lg">
-//                       {project.title}
-//                     </CardTitle>
-//                     <CardDescription>
-//                       {project.summary}
-//                     </CardDescription>
-//                   </CardHeader>
-//                   <CardContent className="pb-3">
-//                     <div className="flex flex-wrap gap-2 mb-4">
-//                       {project.techStack.map((tech: string, i: number) => (
-//                         <Badge key={i} variant="outline">
-//                           {tech}
-//                         </Badge>
-//                       ))}
-//                     </div>
-//                     <div className="space-y-2">
-//                       <div className="flex items-center justify-between">
-//                         <div className="text-sm font-medium">Progress</div>
-//                         <div className="flex items-center text-sm text-muted-foreground">
-//                           <span>{project.progress ?? 0}%</span>
-//                         </div>
-//                       </div>
-//                       <Progress
-//                         value={project.progress ?? 0}
-//                         className="h-2"
-//                       />
-//                     </div>
-//                   </CardContent>
-//                   <CardFooter className="pt-3">
-//                     <Button className="w-full" asChild>
-//                       <Link href={`/projects/${project.slug}`}>
-//                         {project.status === "Completed"
-//                           ? "View Project"
-//                           : project.status === "In Progress"
-//                           ? "Continue Project"
-//                           : "Start Project"}
-//                         <ArrowRight className="ml-2 h-4 w-4" />
-//                       </Link>
-//                     </Button>
-//                   </CardFooter>
-//                 </Card>
-//               );
-//             })
-//           ) : (
-//             <div className="col-span-full flex flex-col items-center justify-center py-12">
-//               <FileText className="h-12 w-12 text-muted-foreground mb-4" />
-//               <h3 className="text-xl font-medium">No projects found</h3>
-//               <p className="text-muted-foreground text-center mt-2">
-//                 Try adjusting your search or filters to find what you're looking
-//                 for.
-//               </p>
-//             </div>
-//           )}
-//         </div>
-
-//         {/* ...the rest of your “Domains to Explore” and “How Project-Based Learning Works” sections */}
-//       </div>
-//     </div>
-//   );
-// }
-
-// app/projects/page.tsx
 "use client";
 
 import * as React from "react";
 import projectsList from "../../data/projects.json";
 import { FilterBar } from "../../components/projects/FilterBar";
-import { ProjectTabs } from "../../components/projects/ProjectTabs";
 import { ProjectGrid } from "../../components/projects/ProjectGrid";
+import HeroSection from "@/components/projects/HeroSection";
+import { Grid3X3, List } from "lucide-react";
 
 export default function ProjectsPage() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [difficulty, setDifficulty] = React.useState("all");
   const [category, setCategory] = React.useState("all");
+  const [viewMode, setViewMode] = React.useState<"grid" | "list">("grid");
 
   const filtered = projectsList.filter((project: any) => {
     const q = searchQuery.toLowerCase();
@@ -235,34 +29,110 @@ export default function ProjectsPage() {
   });
 
   return (
-    <div className="container py-12">
-      {/* header & description */}
-      <div className="flex flex-col space-y-4">
-        <div className="flex flex-col space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Project-Based Learning
-          </h1>
-          <p className="text-muted-foreground">
-            Build real-world projects to apply your skills and enhance your
-            portfolio.
-          </p>
+    <div className="min-h-screen bg-background">
+      <HeroSection />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12 space-y-8">
+        {/* Filter Section */}
+        <div className="max-w-10xl mx-auto">
+          <FilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            difficulty={difficulty}
+            onDifficultyChange={setDifficulty}
+            category={category}
+            onCategoryChange={setCategory}
+          />
         </div>
 
-        {/* filters, tabs, grid */}
-        <FilterBar
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          difficulty={difficulty}
-          onDifficultyChange={setDifficulty}
-          category={category}
-          onCategoryChange={setCategory}
-        />
+        {/* Results Section */}
+        <div className="max-w-10xl mx-auto space-y-6">
+          {/* Results Header */}
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Available Projects
+              </h2>
+              <p className="text-muted-foreground">
+                {filtered.length} project{filtered.length !== 1 ? "s" : ""}{" "}
+                found
+                {searchQuery && ` matching "${searchQuery}"`}
+              </p>
+            </div>
 
-        <ProjectTabs />
+            {/* View Toggle */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground hidden sm:inline">View:</span>
+              <div className="flex items-center bg-muted/50 rounded-lg p-1 border">
+                <button
+                  onClick={() => setViewMode("grid")}
+                  className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                    viewMode === "grid"
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Grid3X3 className="w-4 h-4" />
+                  <span className="hidden sm:inline">Grid</span>
+                </button>
+                <button
+                  onClick={() => setViewMode("list")}
+                  className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                    viewMode === "list"
+                      ? "bg-background shadow-sm text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                  <span className="hidden sm:inline">List</span>
+                </button>
+              </div>
+            </div>
+          </div>
 
-        <ProjectGrid projects={filtered} />
-
-        {/* you can paste your “Domains to Explore” and “How Project-Based Learning Works” here unchanged */}
+          {/* Projects Grid/List */}
+          <div className="relative">
+            {filtered.length > 0 ? (
+              <ProjectGrid projects={filtered} viewMode={viewMode} />
+            ) : (
+              <div className="text-center py-16 space-y-4">
+                <div className="w-16 h-16 mx-auto bg-muted/50 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-muted-foreground"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-medium">No projects found</h3>
+                  <p className="text-muted-foreground max-w-sm mx-auto">
+                    Try adjusting your search criteria or filters to find more
+                    projects.
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setDifficulty("all");
+                    setCategory("all");
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                >
+                  Clear all filters
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
