@@ -25,16 +25,6 @@ export function FilterBar({
   return (
     <div className="flex flex-col gap-4 mt-6">
       <div className="grid gap-4 md:grid-cols-4">
-        <div className="relative md:col-span-2">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search projects by name, description, or technology..."
-            className="pl-8"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-          />
-        </div>
         <div>
           <select
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring"
@@ -54,10 +44,27 @@ export function FilterBar({
             onChange={(e) => onCategoryChange(e.target.value)}
           >
             <option value="all">All Categories</option>
-            <option value="web">Web Development</option>
-            <option value="full stack">Full Stack</option>
-            <option value="mobile">Mobile Development</option>
+            <option value="web development">Web Development</option>
+            <option value="ai/ml">AI/ML</option>
+            <option value="app development">App Development</option>
+            <option value="mobile development">Mobile Development</option>
+            <option value="blockchain">Blockchain</option>
+            <option value="data science">Data Science</option>
+            <option value="game development">Game Development</option>
+            <option value="devops">DevOps</option>
+            <option value="iot">IoT</option>
+            <option value="fintech">FinTech</option>
           </select>
+        </div>
+        <div className="relative md:col-span-2">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            placeholder="Search projects by name, description, or technology..."
+            className="pl-8"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+          />
         </div>
       </div>
     </div>

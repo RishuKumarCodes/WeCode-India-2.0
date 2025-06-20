@@ -366,5 +366,740 @@
         "url": "https://recharts.org/en-US/api"
       }
     ]
+  },
+
+  {
+    "id": "ecommerce-shopify",
+    "slug": "ecommerce-store-shopify",
+    "title": "E-commerce Store with Shopify",
+    "domain": "Web Development",
+    "difficulty": "Intermediate",
+    "summary": "Build a fully functional online store using Shopify's headless commerce platform.",
+    "description": "Create a custom e-commerce experience with product listings, cart functionality, and secure checkout. Integrate with Shopify's backend while maintaining full frontend control.",
+    "timeEstimate": "15–20 hrs",
+    "techStack": ["Shopify Hydrogen", "React", "GraphQL"],
+    "githubRepo": "https://github.com/Shopify/hydrogen",
+    "goals": [
+      "Implement product catalog with dynamic filtering",
+      "Build shopping cart with persistent storage",
+      "Integrate secure payment processing"
+    ],
+    "phases": [
+      {
+        "title": "Store Setup",
+        "description": "Configure Shopify backend and Hydrogen frontend",
+        "steps": [
+          {
+            "id": "create-hydrogen-app",
+            "label": "Scaffold Hydrogen project",
+            "code": "npm create @shopify/hydrogen"
+          },
+          {
+            "id": "configure-products",
+            "label": "Import product catalog via Shopify admin"
+          }
+        ]
+      },
+      {
+        "title": "Core Features",
+        "description": "Implement essential e-commerce functionality",
+        "steps": [
+          {
+            "id": "product-grid",
+            "label": "Create responsive product grid with filters"
+          },
+          {
+            "id": "cart-logic",
+            "label": "Implement cart state management"
+          }
+        ]
+      },
+      {
+        "title": "Checkout & Deployment",
+        "description": "Complete purchase flow and launch store",
+        "steps": [
+          {
+            "id": "payment-gateway",
+            "label": "Integrate Stripe payment processing"
+          },
+          {
+            "id": "deploy-store",
+            "label": "Deploy to Shopify Oxygen hosting"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Hydrogen Documentation",
+        "url": "https://shopify.dev/docs/custom-storefronts/hydrogen"
+      },
+      {
+        "type": "video",
+        "title": "Building Headless Shopify Stores",
+        "url": "https://youtu.be/1zL2uZpqQ9Q"
+      }
+    ]
+  },
+  {
+    "id": "voice-assistant-python",
+    "slug": "voice-assistant-python",
+    "title": "Python Voice Assistant",
+    "domain": "AI/ML",
+    "difficulty": "Intermediate",
+    "summary": "Create an AI-powered voice assistant similar to Siri/Alexa using Python.",
+    "description": "Build a voice-controlled assistant capable of understanding natural language, executing commands, and providing intelligent responses using speech recognition and NLP libraries.",
+    "timeEstimate": "12–18 hrs",
+    "techStack": ["Python", "SpeechRecognition", "PyTorch"],
+    "githubRepo": "https://github.com/Uberi/speech_recognition",
+    "goals": [
+      "Implement voice command recognition",
+      "Create natural language processing pipeline",
+      "Add task execution capabilities"
+    ],
+    "phases": [
+      {
+        "title": "Speech Processing",
+        "description": "Set up voice input/output systems",
+        "steps": [
+          {
+            "id": "voice-capture",
+            "label": "Configure microphone input processing",
+            "code": "import speech_recognition as sr\nr = sr.Recognizer()"
+          },
+          {
+            "id": "tts-setup",
+            "label": "Implement text-to-speech output"
+          }
+        ]
+      },
+      {
+        "title": "NLP Engine",
+        "description": "Build command understanding system",
+        "steps": [
+          {
+            "id": "intent-classification",
+            "label": "Create intent recognition model"
+          },
+          {
+            "id": "command-handlers",
+            "label": "Develop response generation logic"
+          }
+        ]
+      },
+      {
+        "title": "Feature Integration",
+        "description": "Add real-world capabilities",
+        "steps": [
+          {
+            "id": "web-integration",
+            "label": "Connect to web services (weather, news)"
+          },
+          {
+            "id": "local-commands",
+            "label": "Implement system control commands"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "SpeechRecognition Docs",
+        "url": "https://pypi.org/project/SpeechRecognition/"
+      },
+      {
+        "type": "video",
+        "title": "Building Voice Assistants with Python",
+        "url": "https://youtu.be/1uVkRNkUZ04"
+      }
+    ]
+  },
+  {
+    "id": "fitness-tracker-flutter",
+    "slug": "fitness-tracker-flutter",
+    "title": "Fitness Tracker Mobile App",
+    "domain": "App Development",
+    "difficulty": "Intermediate",
+    "summary": "Develop a cross-platform fitness tracking application with workout planning and progress analytics.",
+    "description": "Create a mobile app that tracks workouts, visualizes progress, and provides personalized training recommendations using health device sensors.",
+    "timeEstimate": "20–30 hrs",
+    "techStack": ["Flutter", "Firebase", "Health API"],
+    "githubRepo": "https://github.com/flutter/samples",
+    "goals": [
+      "Implement workout tracking with sensor data",
+      "Design progress visualization dashboard",
+      "Create personalized training programs"
+    ],
+    "phases": [
+      {
+        "title": "App Foundation",
+        "description": "Setup core architecture",
+        "steps": [
+          {
+            "id": "flutter-init",
+            "label": "Create new Flutter project",
+            "code": "flutter create fitness_tracker"
+          },
+          {
+            "id": "auth-setup",
+            "label": "Implement Firebase authentication"
+          }
+        ]
+      },
+      {
+        "title": "Tracking Features",
+        "description": "Build workout monitoring capabilities",
+        "steps": [
+          {
+            "id": "sensor-integration",
+            "label": "Connect to device health sensors"
+          },
+          {
+            "id": "workout-logic",
+            "label": "Create exercise tracking system"
+          }
+        ]
+      },
+      {
+        "title": "Analytics & Deployment",
+        "description": "Add data visualization and publish",
+        "steps": [
+          {
+            "id": "progress-dashboard",
+            "label": "Build statistics dashboard"
+          },
+          {
+            "id": "app-publishing",
+            "label": "Prepare for Play Store/App Store"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Flutter Documentation",
+        "url": "https://flutter.dev/docs"
+      },
+      {
+        "type": "video",
+        "title": "Flutter Fitness App Tutorial",
+        "url": "https://youtu.be/IEq1czW0PKg"
+      }
+    ]
+  },
+  {
+    "id": "defi-yield-farming",
+    "slug": "defi-yield-farming",
+    "title": "DeFi Yield Farming Dashboard",
+    "domain": "Blockchain",
+    "difficulty": "Advanced",
+    "summary": "Build a dashboard for monitoring and managing DeFi yield farming positions across multiple protocols.",
+    "description": "Create a unified interface to track liquidity pool positions, analyze yields, and execute farming strategies across Ethereum DeFi ecosystem.",
+    "timeEstimate": "30+ hrs",
+    "techStack": ["Ethereum", "The Graph", "React", "Ethers.js"],
+    "githubRepo": "https://github.com/graphprotocol/graph-node",
+    "goals": [
+      "Integrate with multiple DeFi protocols",
+      "Implement APY calculation algorithms",
+      "Create position management interface"
+    ],
+    "phases": [
+      {
+        "title": "Blockchain Data",
+        "description": "Access on-chain information",
+        "steps": [
+          {
+            "id": "subgraph-setup",
+            "label": "Configure subgraphs for DeFi protocols",
+            "code": "graph init --product hosted-service"
+          }
+        ]
+      },
+      {
+        "title": "Dashboard Core",
+        "description": "Build main application features",
+        "steps": [
+          {
+            "id": "wallet-integration",
+            "label": "Connect Web3 wallets (MetaMask, WalletConnect)"
+          },
+          {
+            "id": "position-tracking",
+            "label": "Implement portfolio value tracking"
+          }
+        ]
+      },
+      {
+        "title": "Advanced Features",
+        "description": "Add yield optimization tools",
+        "steps": [
+          {
+            "id": "impermanent-loss",
+            "label": "Calculate impermanent loss metrics"
+          },
+          {
+            "id": "strategy-simulator",
+            "label": "Build yield farming strategy simulator"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "The Graph Documentation",
+        "url": "https://thegraph.com/docs"
+      },
+      {
+        "type": "video",
+        "title": "DeFi Dashboard Development",
+        "url": "https://youtu.be/jqAoyJgMf2g"
+      }
+    ]
+  },
+  {
+    "id": "recommendation-engine",
+    "slug": "recommendation-engine-python",
+    "title": "Content Recommendation Engine",
+    "domain": "Data Science",
+    "difficulty": "Advanced",
+    "summary": "Develop a machine learning system for personalized content recommendations.",
+    "description": "Build a scalable recommendation engine using collaborative filtering and content-based approaches, with real-time API serving and performance monitoring.",
+    "timeEstimate": "25–35 hrs",
+    "techStack": ["Python", "Scikit-Learn", "FastAPI", "Docker"],
+    "githubRepo": "https://github.com/benfred/implicit",
+    "goals": [
+      "Implement collaborative filtering algorithms",
+      "Build content-based recommendation models",
+      "Create API endpoints for real-time recommendations"
+    ],
+    "phases": [
+      {
+        "title": "Data Pipeline",
+        "description": "Prepare and process datasets",
+        "steps": [
+          {
+            "id": "data-collection",
+            "label": "Gather and clean interaction datasets"
+          },
+          {
+            "id": "feature-engineering",
+            "label": "Create user/item feature matrices"
+          }
+        ]
+      },
+      {
+        "title": "Model Development",
+        "description": "Build and train recommendation models",
+        "steps": [
+          {
+            "id": "als-implementation",
+            "label": "Implement Alternating Least Squares",
+            "code": "from implicit.als import AlternatingLeastSquares"
+          },
+          {
+            "id": "evaluation",
+            "label": "Set up precision@k evaluation metrics"
+          }
+        ]
+      },
+      {
+        "title": "Deployment",
+        "description": "Serve and monitor recommendations",
+        "steps": [
+          {
+            "id": "api-creation",
+            "label": "Build FastAPI recommendation endpoints"
+          },
+          {
+            "id": "containerization",
+            "label": "Dockerize application for production"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Implicit Library Docs",
+        "url": "https://implicit.readthedocs.io"
+      },
+      {
+        "type": "video",
+        "title": "Building Recommendation Systems",
+        "url": "https://youtu.be/z0dx-YckFko"
+      }
+    ]
+  },
+  {
+    "id": "game-dev-platformer",
+    "slug": "unity-platformer-game",
+    "title": "2D Platformer Game",
+    "domain": "Game Development",
+    "difficulty": "Intermediate",
+    "summary": "Create a polished 2D platformer game with Unity featuring character physics, enemies, and collectibles.",
+    "description": "Design and develop a complete 2D platformer game with Unity. Implement character movement, enemy AI, level design, and game mechanics. Learn game physics, animation, and publishing.",
+    "timeEstimate": "20-30 hrs",
+    "techStack": ["Unity", "C#", "Aseprite"],
+    "githubRepo": "https://github.com/Unity-Technologies/2d-gamedemo-robodash",
+    "goals": [
+      "Master Unity 2D game development workflow",
+      "Implement character controller with physics",
+      "Design engaging levels with obstacles and rewards"
+    ],
+    "phases": [
+      {
+        "title": "Setup & Basics",
+        "description": "Configure Unity project and core mechanics",
+        "steps": [
+          {
+            "id": "unity-setup",
+            "label": "Create new 2D Unity project",
+            "code": "// Unity Hub -> New 2D Project"
+          },
+          {
+            "id": "character-movement",
+            "label": "Implement player controller with jumping"
+          }
+        ]
+      },
+      {
+        "title": "Game Elements",
+        "description": "Add enemies, collectibles, and hazards",
+        "steps": [
+          {
+            "id": "enemy-ai",
+            "label": "Create patrolling enemies with basic AI"
+          },
+          {
+            "id": "collectible-system",
+            "label": "Implement coin collection and scoring"
+          }
+        ]
+      },
+      {
+        "title": "Polish & Build",
+        "description": "Finalize levels and export game",
+        "steps": [
+          {
+            "id": "level-design",
+            "label": "Design complete game world with challenges"
+          },
+          {
+            "id": "build-game",
+            "label": "Export executable for Windows/macOS"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "video",
+        "title": "Unity 2D Beginner Tutorial",
+        "url": "https://youtu.be/on9nwbZngyw"
+      },
+      {
+        "type": "doc",
+        "title": "Unity Manual",
+        "url": "https://docs.unity3d.com/Manual/index.html"
+      }
+    ]
+  },
+  {
+    "id": "devops-ci-cd",
+    "slug": "devops-ci-cd-pipeline",
+    "title": "CI/CD Pipeline Automation",
+    "domain": "DevOps",
+    "difficulty": "Advanced",
+    "summary": "Build an automated CI/CD pipeline with GitHub Actions, Docker, and Kubernetes for cloud deployment.",
+    "description": "Create a complete DevOps workflow that automatically builds, tests, containers, and deploys applications to a Kubernetes cluster. Learn infrastructure-as-code principles.",
+    "timeEstimate": "15-25 hrs",
+    "techStack": ["GitHub Actions", "Docker", "Kubernetes", "Terraform"],
+    "githubRepo": "https://github.com/actions/starter-workflows",
+    "goals": [
+      "Implement automated testing and building",
+      "Containerize applications with Docker",
+      "Deploy to Kubernetes cluster with zero downtime"
+    ],
+    "phases": [
+      {
+        "title": "CI Setup",
+        "description": "Configure continuous integration",
+        "steps": [
+          {
+            "id": "github-actions",
+            "label": "Create GitHub Actions workflow",
+            "code": "name: CI\non: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest"
+          },
+          {
+            "id": "automated-tests",
+            "label": "Add automated testing to pipeline"
+          }
+        ]
+      },
+      {
+        "title": "Containerization",
+        "description": "Build and manage Docker images",
+        "steps": [
+          {
+            "id": "dockerize-app",
+            "label": "Create Dockerfile for application"
+          },
+          {
+            "id": "container-registry",
+            "label": "Push images to Docker Hub/GCR"
+          }
+        ]
+      },
+      {
+        "title": "CD & Deployment",
+        "description": "Automate deployment to production",
+        "steps": [
+          {
+            "id": "k8s-deployment",
+            "label": "Create Kubernetes deployment manifests"
+          },
+          {
+            "id": "terraform-infra",
+            "label": "Manage infrastructure with Terraform"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "GitHub Actions Docs",
+        "url": "https://docs.github.com/en/actions"
+      },
+      {
+        "type": "video",
+        "title": "CI/CD Masterclass",
+        "url": "https://youtu.be/OPwU3UWCxhw"
+      }
+    ]
+  },
+  {
+    "id": "ar-mobile-app",
+    "slug": "augmented-reality-app",
+    "title": "Augmented Reality Experience",
+    "domain": "Mobile Development",
+    "difficulty": "Advanced",
+    "summary": "Build an AR mobile app that overlays digital information on real-world environments.",
+    "description": "Create an immersive augmented reality experience using ARKit/ARCore. Implement object recognition, 3D model placement, and interactive AR interfaces.",
+    "timeEstimate": "25-35 hrs",
+    "techStack": ["ARKit", "ARCore", "Unity", "Blender"],
+    "githubRepo": "https://github.com/google-ar/arcore-android-sdk",
+    "goals": [
+      "Implement plane detection and surface tracking",
+      "Place 3D objects in real-world environments",
+      "Create interactive AR experiences"
+    ],
+    "phases": [
+      {
+        "title": "AR Foundation",
+        "description": "Set up cross-platform AR environment",
+        "steps": [
+          {
+            "id": "ar-project-setup",
+            "label": "Configure Unity for AR development"
+          },
+          {
+            "id": "plane-detection",
+            "label": "Implement surface detection"
+          }
+        ]
+      },
+      {
+        "title": "3D Interaction",
+        "description": "Add and manipulate 3D objects",
+        "steps": [
+          {
+            "id": "object-placement",
+            "label": "Create object placement system"
+          },
+          {
+            "id": "gesture-controls",
+            "label": "Implement rotation/scaling gestures"
+          }
+        ]
+      },
+      {
+        "title": "Advanced Features",
+        "description": "Add recognition and animations",
+        "steps": [
+          {
+            "id": "image-recognition",
+            "label": "Add marker-based recognition"
+          },
+          {
+            "id": "animation-effects",
+            "label": "Create interactive animations"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "ARCore Documentation",
+        "url": "https://developers.google.com/ar"
+      },
+      {
+        "type": "video",
+        "title": "Unity AR Tutorial",
+        "url": "https://youtu.be/MtZ0A8HkK10"
+      }
+    ]
+  },
+  {
+    "id": "iot-smart-home",
+    "slug": "iot-smart-home-system",
+    "title": "Smart Home IoT System",
+    "domain": "IoT",
+    "difficulty": "Intermediate",
+    "summary": "Build a connected smart home system with sensors, actuators, and a central dashboard.",
+    "description": "Create a complete IoT solution for home automation. Connect physical devices to a cloud backend and build a responsive dashboard for monitoring and control.",
+    "timeEstimate": "20-30 hrs",
+    "techStack": ["Raspberry Pi", "Node-RED", "MQTT", "React"],
+    "githubRepo": "https://github.com/node-red/node-red",
+    "goals": [
+      "Connect and program IoT sensors",
+      "Create automation rules with Node-RED",
+      "Build responsive monitoring dashboard"
+    ],
+    "phases": [
+      {
+        "title": "Hardware Setup",
+        "description": "Configure devices and sensors",
+        "steps": [
+          {
+            "id": "sensor-config",
+            "label": "Connect temperature/motion sensors"
+          },
+          {
+            "id": "mqtt-broker",
+            "label": "Set up MQTT message broker"
+          }
+        ]
+      },
+      {
+        "title": "Automation Logic",
+        "description": "Create rules and flows",
+        "steps": [
+          {
+            "id": "node-red-flows",
+            "label": "Design automation flows in Node-RED"
+          },
+          {
+            "id": "alert-system",
+            "label": "Implement notification system"
+          }
+        ]
+      },
+      {
+        "title": "Dashboard & Cloud",
+        "description": "Build monitoring interface",
+        "steps": [
+          {
+            "id": "react-dashboard",
+            "label": "Create React dashboard with real-time data"
+          },
+          {
+            "id": "cloud-integration",
+            "label": "Connect to cloud services (AWS IoT)"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Node-RED Documentation",
+        "url": "https://nodered.org/docs"
+      },
+      {
+        "type": "video",
+        "title": "IoT Home Automation Guide",
+        "url": "https://youtu.be/9w2TkjCq4Jk"
+      }
+    ]
+  },
+  {
+    "id": "fintech-budget-app",
+    "slug": "fintech-budget-tracker",
+    "title": "Personal Finance Tracker",
+    "domain": "FinTech",
+    "difficulty": "Intermediate",
+    "summary": "Build a secure personal finance application with expense tracking, budgeting, and analytics.",
+    "description": "Develop a full-stack financial application with secure authentication, transaction management, and data visualization. Learn financial data handling best practices.",
+    "timeEstimate": "25-35 hrs",
+    "techStack": ["Next.js", "Prisma", "PostgreSQL", "Plaid API"],
+    "githubRepo": "https://github.com/plaid/plaid-node",
+    "goals": [
+      "Implement bank account integration",
+      "Create budgeting and expense tracking",
+      "Visualize financial data with charts"
+    ],
+    "phases": [
+      {
+        "title": "Foundation",
+        "description": "Setup project and authentication",
+        "steps": [
+          {
+            "id": "nextjs-setup",
+            "label": "Create Next.js application",
+            "code": "npx create-next-app@latest"
+          },
+          {
+            "id": "auth-implementation",
+            "label": "Add secure authentication"
+          }
+        ]
+      },
+      {
+        "title": "Core Features",
+        "description": "Implement financial operations",
+        "steps": [
+          {
+            "id": "plaid-integration",
+            "label": "Connect bank accounts with Plaid API"
+          },
+          {
+            "id": "transaction-system",
+            "label": "Build transaction management"
+          }
+        ]
+      },
+      {
+        "title": "Analytics & Security",
+        "description": "Add insights and hardening",
+        "steps": [
+          {
+            "id": "data-visualization",
+            "label": "Create spending analytics dashboard"
+          },
+          {
+            "id": "security-audit",
+            "label": "Implement financial data protection"
+          }
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "doc",
+        "title": "Plaid API Docs",
+        "url": "https://plaid.com/docs"
+      },
+      {
+        "type": "video",
+        "title": "Building Financial Apps",
+        "url": "https://youtu.be/ZHwS2Qe7XlY"
+      }
+    ]
   }
 ]
