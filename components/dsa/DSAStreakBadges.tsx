@@ -1,49 +1,46 @@
 
-import { Badge } from "@/components/ui/badge";
+"use client";
+import { Flame, Calendar, Trophy } from "lucide-react";
 
-const getStreakBadges = (
-  solvedToday: number,
-  dailyStreak: number,
-  weeklyStreak: number
-) => {
-  const badges: { icon: string; text: string; color: string }[] = [];
-  if (dailyStreak >= 3) {
-    badges.push({ icon: "🔥", text: `${dailyStreak}-Day Streak!`, color: "bg-orange-100 text-orange-800" });
-  }
-  if (weeklyStreak >= 7) {
-    badges.push({ icon: "🏅", text: "Consistency Champ", color: "bg-yellow-100 text-yellow-800" });
-  }
-  if (solvedToday > 0) {
-    badges.push({ icon: "✅", text: `Solved today: ${solvedToday}`, color: "bg-green-100 text-green-800" });
-  }
-  if (badges.length === 0) {
-    badges.push({ icon: "✨", text: "Let’s start your DSA streak!", color: "bg-muted text-muted-foreground" });
-  }
-  return badges;
-};
-
-export function DSAStreakBadges({
-  solvedToday,
-  dailyStreak,
-  weeklyStreak,
-}: {
+interface DSAStreakBadgesProps {
   solvedToday: number;
   dailyStreak: number;
   weeklyStreak: number;
-}) {
-  const badges = getStreakBadges(solvedToday, dailyStreak, weeklyStreak);
+}
 
+export function DSAStreakBadges({ solvedToday, dailyStreak, weeklyStreak }: DSAStreakBadgesProps) {
   return (
-    <div className="flex flex-wrap gap-2 mb-7 animate-fade-in">
-      {badges.map((badge, i) => (
-        <Badge
-          key={i}
-          className={`rounded-2xl px-4 py-2 font-semibold text-base shadow-sm ${badge.color}`}
-        >
-          <span className="mr-1">{badge.icon}</span>
-          {badge.text}
-        </Badge>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div className="bg-white border border-gray-200 rounded-lg p-6 flex items-center gap-4">
+        <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+          <Flame className="text-orange-600" size={24} />
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-gray-900">{solvedToday}</div>
+          <div className="text-sm text-gray-600">Problems Today</div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-lg p-6 flex items-center gap-4">
+        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+          <Calendar className="text-blue-600" size={24} />
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-gray-900">{dailyStreak}</div>
+          <div className="text-sm text-gray-600">Day Streak</div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-lg p-6 flex items-center gap-4">
+        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+          <Trophy className="text-green-600" size={24} />
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-gray-900">{weeklyStreak}</div>
+          <div className="text-sm text-gray-600">Weekly Active Days</div>
+        </div>
+      </div>
     </div>
   );
 }
+    
